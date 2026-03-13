@@ -121,7 +121,7 @@ h1{font-family:var(--fd);font-size:clamp(3rem,5.5vw,5.2rem);font-weight:700;line
 
 /* ── PRODUCTOS ── */
 #productos{background:var(--surface)}
-.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
 .prod-card{background:#ffffff;padding:48px 44px;position:relative;overflow:hidden;transition:all .3s;border-radius:var(--r3);border:1px solid var(--border);box-shadow:var(--shadow)}
 .prod-card:hover{transform:translateY(-4px);box-shadow:0 0 30px rgba(34,197,94,0.12)}
 .prod-tag-b{display:inline-block;padding:4px 12px;background:rgba(34,197,94,.08);border:1px solid var(--borderg2);border-radius:99px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:22px}
@@ -351,7 +351,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
       <h2 class="st">Soluciones financieras<br/>a tu medida.</h2>
       <p style="margin-top:14px;color:var(--text2);font-size:1rem">Liquidez inmediata, condiciones personalizadas y sin complicaciones.</p>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <div class="prod-grid">
 
       <!-- 1. CRÉDITO REVOLVENTE -->
       <div class="prod-card anim">
