@@ -447,7 +447,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
           <button class="btn btn-p btn-full btn-lg" onclick="loginPortal()">Ingresar al portal →</button>
           <div class="login-divider">o</div>
           <button class="btn btn-ghost btn-full" onclick="scrollToSection('solicitud')">¿Aún no eres cliente? Solicita aquí</button>
-          <p class="login-note">¿Problemas para acceder? Contáctanos: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e3808c8d978280978ca38a8e93968f9082cd8e9b">[email&#160;protected]</a></p>
+          <p class="login-note">¿Problemas para acceder? Contáctanos: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c0f0302180d0f18032c05011c19001f0d420114">[email&#160;protected]</a></p>
         </div>
       </div>
     </div>
@@ -567,11 +567,11 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
         <p>Respuesta inmediata en horario hábil. Lunes a viernes.</p>
         <span class="con-action-g">Escríbenos →</span>
       </a>
-      <a href="/cdn-cgi/l/email-protection#8cefe3e2f8edeff8e3cce5e1fcf9e0ffeda2e1f4" class="con-card anim" style="transition-delay:.08s">
+      <a href="/cdn-cgi/l/email-protection#81e2eeeff5e0e2f5eec1e8ecf1f4edf2e0afecf9" class="con-card anim" style="transition-delay:.08s">
         <div class="con-icon">✉️</div>
         <h4>Correo electrónico</h4>
         <p>Para solicitudes formales y documentación oficial.</p>
-        <span class="con-action-b"><span class="__cf_email__" data-cfemail="e78488899386849388a78e8a97928b9486c98a9f">[email&#160;protected]</span> →</span>
+        <span class="con-action-b"><span class="__cf_email__" data-cfemail="45262a2b312426312a052c2835302936246b283d">[email&#160;protected]</span> →</span>
       </a>
       <div class="con-card anim" style="transition-delay:.16s">
         <div class="con-icon">🕐</div>
@@ -620,8 +620,13 @@ window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('solid',scrollY>20)
 })
 function scrollToSection(id){
-  document.getElementById(id)?.scrollIntoView({behavior:'smooth'})
-  document.getElementById('mobMenu').classList.remove('open')
+  var el=document.getElementById(id);
+  if(el){
+    var y=el.getBoundingClientRect().top+window.pageYOffset-72;
+    window.scrollTo({top:y,behavior:'smooth'});
+  }
+  var mob=document.getElementById('mobMenu');
+  if(mob) mob.classList.remove('open');
 }
 function toggleMenu(){
   document.getElementById('mobMenu').classList.toggle('open')
