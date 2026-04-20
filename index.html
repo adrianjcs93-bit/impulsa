@@ -216,10 +216,10 @@ h1{font-family:var(--fd);font-size:clamp(3rem,5.5vw,5.2rem);font-weight:700;line
 
 /* ── FOOTER ── */
 footer{background:var(--text);padding:56px 0 28px}
-.footer-top{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:28px}
+.footer-top{display:grid;grid-template-columns:1.2fr 2.5fr;gap:48px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:28px}
 .footer-brand p{font-size:.875rem;color:rgba(255,255,255,0.5);max-width:280px;line-height:1.6;margin-top:14px}
 .footer-logo img{height:42px;background:transparent !important;mix-blend-mode:screen;opacity:.95}
-.footer-cols{display:flex;gap:48px}
+.footer-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
 .fcol h5{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:16px}
 .fcol ul{display:flex;flex-direction:column;gap:10px}
 .fcol button{font-size:.875rem;color:rgba(255,255,255,0.55);transition:color .2s;padding:0}
@@ -233,6 +233,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
   .hero-visual{display:none}
   .nos-grid,.sol-grid,.portal-grid{grid-template-columns:1fr}
   .footer-top{grid-template-columns:1fr}
+  .footer-cols{grid-template-columns:repeat(2,1fr);gap:24px}
 }
 @media(max-width:900px){
   .prod-grid{grid-template-columns:1fr}
@@ -259,9 +260,9 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
 <!-- NAV -->
 <nav id="nav">
   <div class="wrap nav-in">
-    <div class="logo" onclick="scrollToSection('inicio')" style="cursor:pointer">
+    <a class="logo" href="#inicio" onclick="goHome(event)" style="cursor:pointer;text-decoration:none">
       <img src="Impulsa_grupo_financiero_transparente.png" alt="Impulsa SOFOM E.N.R."/>
-    </div>
+    </a>
     <ul class="nav-links">
       <li><a href="#inicio" class="active" style=";text-decoration:none">Inicio</a></li>
       <li><a href="#productos" style=";text-decoration:none">Productos</a></li>
@@ -607,13 +608,21 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
           <ul>
             <li><a href="#productos" style=";text-decoration:none">Crédito Nómina</a></li>
             <li><a href="#productos" style=";text-decoration:none">Factoraje Financiero</a></li>
+            <li><a href="#solicitud" style=";text-decoration:none">Solicitar crédito</a></li>
           </ul>
         </div>
         <div class="fcol">
           <h5>Clientes</h5>
           <ul>
             <li><a href="#portal" style=";text-decoration:none">Portal Clientes</a></li>
-            <li><a href="#solicitud" style=";text-decoration:none">Solicitar crédito</a></li>
+            <li><a href="#porque" style=";text-decoration:none">¿Por qué elegirnos?</a></li>
+          </ul>
+        </div>
+        <div class="fcol">
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="#contacto" style=";text-decoration:none">Información</a></li>
+            <li><a href="#solicitud" style=";text-decoration:none">Solicitar info</a></li>
           </ul>
         </div>
       </div>
@@ -630,6 +639,11 @@ window.addEventListener('scroll',()=>{
 function scrollToSection(id){
   document.getElementById(id)?.scrollIntoView({behavior:'smooth'})
   document.getElementById('mobMenu').classList.remove('open')
+}
+function goHome(e){
+  e.preventDefault()
+  window.scrollTo({top:0,behavior:'smooth'})
+  document.getElementById('mobMenu')?.classList.remove('open')
 }
 function toggleMenu(){
   document.getElementById('mobMenu').classList.toggle('open')
