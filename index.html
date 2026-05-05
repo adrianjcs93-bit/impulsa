@@ -653,9 +653,7 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:.08,rootMargin:'0px 0px -30px 0px'})
 document.querySelectorAll('.anim').forEach(el=>obs.observe(el))
 
-function loginPortal(){
-  alert('Portal en construcción. Próximamente disponible para clientes activos.')
-}
+function loginPortal(){ openPortalLogin() }
 function submitForm(){
   const nombre=document.getElementById('f-nombre').value
   const telefono=document.getElementById('f-telefono').value
@@ -670,3 +668,1081 @@ function submitForm(){
     document.getElementById('form-success').style.display='block'
     setTimeout(()=>{
       document.getElementById('form-wrap').style.display='block'
+      document.getElementById('form-success').style.display='none'
+      btn.textContent='Enviar solicitud →'
+      btn.disabled=false
+      ;['f-nombre','f-telefono','f-correo','f-producto','f-empresa','f-mto','f-msg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''})
+    },5000)
+  },1200)
+}
+</script>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PORTAL DE CLIENTES — PROTOTIPO VISUAL
+     ════════════════════════════════════════════════════════════════════ -->
+
+<style>
+/* Overlay del portal */
+#portal-app{position:fixed;inset:0;z-index:1000;background:#f4faf6;display:none;overflow-y:auto}
+#portal-app.open{display:block}
+.pa-nav{position:sticky;top:0;background:rgba(255,255,255,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);height:64px;display:flex;align-items:center;padding:0 32px;z-index:10}
+.pa-nav-logo{display:flex;align-items:center;gap:12px;font-family:var(--fd);font-weight:700;color:var(--g1);font-size:1rem}
+.pa-nav-logo img{height:38px}
+.pa-nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.pa-user{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--text2)}
+.pa-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g3),var(--g4));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+.pa-close{background:rgba(34,197,94,.08);color:var(--g2);padding:8px 16px;border-radius:10px;font-size:.82rem;font-weight:600;border:1px solid var(--borderg2)}
+.pa-close:hover{background:rgba(34,197,94,.14)}
+
+.pa-container{max-width:1100px;margin:0 auto;padding:36px 32px 80px}
+.pa-h1{font-family:var(--fd);font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
+.pa-sub{color:var(--text2);font-size:.95rem;margin-bottom:28px}
+
+/* LOGIN */
+.pa-login-wrap{max-width:440px;margin:60px auto 0;background:#fff;padding:44px 38px;border-radius:var(--r3);border:1px solid var(--border2);box-shadow:var(--shadow2)}
+.pa-login-wrap .lock-icon{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--g3),var(--g4));display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 22px}
+.pa-tabs{display:flex;background:rgba(34,197,94,.06);border-radius:10px;padding:4px;margin-bottom:24px}
+.pa-tab{flex:1;padding:9px;font-size:.82rem;font-weight:600;color:var(--text3);border-radius:8px;transition:all .2s}
+.pa-tab.active{background:#fff;color:var(--g2);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+
+/* STEPPER */
+.pa-steps{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px;position:relative;padding:0 8px}
+.pa-steps::before{content:'';position:absolute;top:18px;left:8%;right:8%;height:2px;background:rgba(34,197,94,.15);z-index:0}
+.pa-steps-progress{position:absolute;top:18px;left:8%;height:2px;background:linear-gradient(90deg,var(--g3),var(--g4));z-index:1;transition:width .4s ease;width:0%}
+.pa-step{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;flex:0 0 auto}
+.pa-step-circle{width:38px;height:38px;border-radius:50%;background:#fff;border:2px solid rgba(34,197,94,.2);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text3);font-size:.85rem;transition:all .3s}
+.pa-step.active .pa-step-circle{background:linear-gradient(135deg,var(--g3),var(--g4));border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(34,197,94,.35)}
+.pa-step.done .pa-step-circle{background:var(--g4);border-color:var(--g4);color:#fff}
+.pa-step-label{font-size:.72rem;font-weight:600;color:var(--text3);text-align:center;max-width:90px}
+.pa-step.active .pa-step-label{color:var(--g2)}
+
+.pa-card{background:#fff;border-radius:var(--r3);border:1px solid var(--border2);padding:36px 38px;box-shadow:var(--shadow);margin-bottom:24px}
+.pa-card-h{font-family:var(--fd);font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.pa-card-sub{color:var(--text2);font-size:.88rem;margin-bottom:26px}
+
+.pa-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pa-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.pa-fg{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.pa-fg label{font-size:.78rem;font-weight:600;color:var(--text);letter-spacing:.01em}
+.pa-fg label .req{color:#dc2626;margin-left:2px}
+.pa-fg input,.pa-fg select,.pa-fg textarea{padding:12px 14px;border:1.5px solid rgba(34,197,94,.18);border-radius:10px;font-size:.92rem;color:var(--text);background:#fff;transition:all .2s;font-family:var(--fb)}
+.pa-fg input:focus,.pa-fg select:focus,.pa-fg textarea:focus{outline:none;border-color:var(--g4);box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+.pa-fg input.invalid{border-color:#fca5a5;background:#fef2f2}
+.pa-fg .help{font-size:.72rem;color:var(--text3)}
+.pa-fg .err{font-size:.72rem;color:#dc2626;display:none}
+.pa-fg .err.show{display:block}
+
+.pa-radio-grp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.pa-radio{padding:18px;border:1.5px solid rgba(34,197,94,.18);border-radius:14px;cursor:pointer;transition:all .2s;background:#fff;display:flex;align-items:center;gap:14px}
+.pa-radio:hover{border-color:var(--g4)}
+.pa-radio.selected{border-color:var(--g4);background:rgba(34,197,94,.05);box-shadow:0 0 0 3px rgba(34,197,94,.08)}
+.pa-radio-icon{font-size:1.6rem}
+.pa-radio-text strong{display:block;font-size:.92rem;color:var(--text);font-weight:700;margin-bottom:2px}
+.pa-radio-text span{font-size:.78rem;color:var(--text3)}
+
+/* Upload */
+.pa-upload{border:2px dashed rgba(34,197,94,.28);border-radius:14px;padding:24px;background:rgba(34,197,94,.02);transition:all .2s;cursor:pointer;text-align:center;display:block}
+.pa-upload:hover{border-color:var(--g4);background:rgba(34,197,94,.05)}
+.pa-upload.has-file{border-style:solid;border-color:var(--g4);background:rgba(34,197,94,.06);text-align:left;cursor:default}
+.pa-upload input[type=file]{display:none}
+.pa-up-icon{font-size:1.8rem;margin-bottom:8px}
+.pa-up-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:3px}
+.pa-up-hint{font-size:.74rem;color:var(--text3)}
+.pa-up-file{display:flex;align-items:center;gap:12px}
+.pa-up-file-icon{width:38px;height:38px;border-radius:8px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.pa-up-file-info{flex:1;min-width:0}
+.pa-up-file-name{font-size:.85rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pa-up-file-meta{font-size:.72rem;color:var(--text3)}
+.pa-up-remove{background:none;color:#dc2626;font-size:.78rem;font-weight:600;padding:6px 10px;border-radius:6px}
+.pa-up-remove:hover{background:#fef2f2}
+
+.pa-doc-label{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pa-doc-label .req{color:#dc2626}
+
+.pa-nav-btns{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+.pa-btn-back{background:#fff;color:var(--text2);border:1.5px solid rgba(34,197,94,.18);padding:12px 24px;border-radius:10px;font-weight:600;font-size:.88rem;transition:all .2s;cursor:pointer}
+.pa-btn-back:hover{border-color:var(--text3)}
+.pa-btn-next{background:linear-gradient(135deg,var(--g3),var(--g4));color:#fff;padding:12px 28px;border-radius:10px;font-weight:600;font-size:.88rem;transition:all .2s;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none}
+.pa-btn-next:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,197,94,.3)}
+.pa-btn-next:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* DASHBOARD */
+.pa-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:28px}
+.pa-stat{background:#fff;border-radius:18px;padding:22px;border:1px solid var(--border2);box-shadow:var(--shadow)}
+.pa-stat-lbl{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-weight:600}
+.pa-stat-val{font-family:var(--fd);font-size:1.65rem;font-weight:800;color:var(--text);line-height:1.1}
+.pa-stat-val.g{color:var(--g2)}
+.pa-stat-val.b{color:var(--b3)}
+.pa-stat-foot{font-size:.74rem;color:var(--text3);margin-top:6px}
+.pa-stat-bar{height:5px;background:rgba(34,197,94,.12);border-radius:3px;margin-top:10px;overflow:hidden}
+.pa-stat-bar-fill{height:100%;background:linear-gradient(90deg,var(--g3),var(--g4));border-radius:3px}
+
+.pa-section-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.pa-section-h h3{font-family:var(--fd);font-size:1.2rem;font-weight:700;color:var(--text)}
+
+.pa-table-wrap{background:#fff;border-radius:18px;border:1px solid var(--border2);overflow:hidden;box-shadow:var(--shadow)}
+.pa-table{width:100%;border-collapse:collapse}
+.pa-table th{text-align:left;padding:14px 18px;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:700;background:rgba(34,197,94,.04);border-bottom:1px solid var(--border2)}
+.pa-table td{padding:14px 18px;font-size:.86rem;color:var(--text);border-bottom:1px solid rgba(34,197,94,.08)}
+.pa-table tr:last-child td{border-bottom:none}
+.pa-table tr:hover td{background:rgba(34,197,94,.02)}
+.pa-uuid{font-family:'Courier New',monospace;font-size:.72rem;color:var(--text3)}
+.pa-monto{font-weight:700;color:var(--text);font-family:var(--fd)}
+
+.pa-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:.7rem;font-weight:700;letter-spacing:.02em}
+.pa-badge-pendiente{background:#fef3c7;color:#92400e}
+.pa-badge-validada{background:rgba(34,197,94,.15);color:var(--g2)}
+.pa-badge-rechazada{background:#fee2e2;color:#991b1b}
+.pa-badge-pagada{background:rgba(37,99,235,.12);color:var(--b3)}
+
+.pa-empty{text-align:center;padding:60px 24px;color:var(--text3)}
+.pa-empty-icon{font-size:3rem;margin-bottom:12px;opacity:.5}
+.pa-empty-h{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:6px}
+
+/* Modal */
+.pa-modal-bg{position:fixed;inset:0;background:rgba(15,46,24,.5);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.pa-modal-bg.open{display:flex}
+.pa-modal{background:#fff;border-radius:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;padding:36px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.pa-modal-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.pa-modal-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--text)}
+.pa-modal-x{background:rgba(34,197,94,.06);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:1.1rem;border:none;cursor:pointer}
+.pa-modal-x:hover{background:rgba(34,197,94,.12)}
+
+.pa-cfdi-preview{background:linear-gradient(135deg,rgba(34,197,94,.06),rgba(34,197,94,.02));border:1px solid var(--borderg2);border-radius:14px;padding:18px;margin:18px 0}
+.pa-cfdi-preview-h{font-size:.78rem;font-weight:700;color:var(--g2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.pa-cfdi-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.82rem;border-bottom:1px solid rgba(34,197,94,.1);gap:12px}
+.pa-cfdi-row:last-child{border-bottom:none}
+.pa-cfdi-row span:first-child{color:var(--text3);flex-shrink:0}
+.pa-cfdi-row span:last-child{color:var(--text);font-weight:600;text-align:right;word-break:break-all}
+
+.pa-toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:14px 22px;border-radius:12px;font-size:.88rem;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:3000;transform:translateY(100px);opacity:0;transition:all .3s;max-width:340px}
+.pa-toast.show{transform:translateY(0);opacity:1}
+.pa-toast.success{background:var(--g2)}
+.pa-toast.error{background:#dc2626}
+
+.pa-demo-banner{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #fcd34d;border-radius:12px;padding:12px 18px;margin-bottom:24px;font-size:.82rem;color:#92400e;display:flex;align-items:center;gap:10px;line-height:1.5}
+.pa-demo-banner strong{font-weight:700}
+
+@media(max-width:768px){
+  .pa-grid-2,.pa-grid-3,.pa-radio-grp{grid-template-columns:1fr}
+  .pa-stat-grid{grid-template-columns:1fr 1fr}
+  .pa-container{padding:24px 18px 60px}
+  .pa-card{padding:24px 22px}
+  .pa-step-label{display:none}
+  .pa-table th:nth-child(3),.pa-table td:nth-child(3){display:none}
+  .pa-nav{padding:0 18px}
+  .pa-user span{display:none}
+}
+</style>
+
+<!-- Portal HTML -->
+<div id="portal-app">
+  <div class="pa-nav">
+    <div class="pa-nav-logo">
+      <img src="Impulsa_grupo_financiero_transparente.png" alt="Impulsa"/>
+      <span>Portal Clientes</span>
+    </div>
+    <div class="pa-nav-right">
+      <div class="pa-user" id="pa-user-info" style="display:none">
+        <div class="pa-avatar" id="pa-avatar">U</div>
+        <span id="pa-user-name">—</span>
+      </div>
+      <button class="pa-close" onclick="closePortal()">Salir ✕</button>
+    </div>
+  </div>
+  <div class="pa-container" id="pa-content"></div>
+</div>
+
+<!-- Modal carga de factura -->
+<div class="pa-modal-bg" id="pa-modal-factura">
+  <div class="pa-modal">
+    <div class="pa-modal-h">
+      <div>
+        <div class="pa-modal-title">Cargar nueva factura</div>
+        <div class="pa-card-sub" style="margin:4px 0 0">Sube el PDF y XML de tu CFDI</div>
+      </div>
+      <button class="pa-modal-x" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="pa-doc-label" style="margin-top:18px">XML del CFDI <span class="req">*</span></div>
+    <label class="pa-upload" id="up-xml-label">
+      <input type="file" accept=".xml,text/xml" onchange="handleXMLUpload(event)"/>
+      <div class="pa-up-icon">📄</div>
+      <div class="pa-up-title">Click para subir XML</div>
+      <div class="pa-up-hint">Archivo .xml del SAT</div>
+    </label>
+
+    <div class="pa-doc-label" style="margin-top:18px">PDF de la factura <span class="req">*</span></div>
+    <label class="pa-upload" id="up-pdf-label">
+      <input type="file" accept=".pdf,application/pdf" onchange="handlePDFUpload(event)"/>
+      <div class="pa-up-icon">📕</div>
+      <div class="pa-up-title">Click para subir PDF</div>
+      <div class="pa-up-hint">Representación impresa</div>
+    </label>
+
+    <div id="pa-cfdi-info"></div>
+
+    <div class="pa-nav-btns" style="margin-top:24px">
+      <button class="pa-btn-back" onclick="closeModal()">Cancelar</button>
+      <button class="pa-btn-next" id="pa-submit-factura" onclick="submitFactura()" disabled>Enviar a validación →</button>
+    </div>
+
+    <p style="font-size:.74rem;color:var(--text3);margin-top:14px;text-align:center;line-height:1.5">
+      🔒 La factura será validada con el SAT antes de procesarse para factoraje.
+    </p>
+  </div>
+</div>
+
+<div class="pa-toast" id="pa-toast"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   PORTAL CLIENTES — LÓGICA DEL PROTOTIPO
+   ════════════════════════════════════════════════════════════════════ */
+
+const PORTAL_DB_KEY = 'impulsa_portal_db'
+let portalState = {
+  currentUser: null,
+  currentView: 'login',
+  onboardingStep: 1,
+  onboardingData: {},
+  pendingFactura: { xml:null, pdf:null, parsed:null }
+}
+
+function loadDB(){
+  try{ return JSON.parse(localStorage.getItem(PORTAL_DB_KEY)) || { clientes:[], facturas:[] } }
+  catch{ return { clientes:[], facturas:[] } }
+}
+function saveDB(db){ localStorage.setItem(PORTAL_DB_KEY, JSON.stringify(db)) }
+
+function toast(msg, type){
+  type = type || 'success'
+  const t = document.getElementById('pa-toast')
+  t.textContent = msg
+  t.className = 'pa-toast ' + type + ' show'
+  setTimeout(()=>{ t.className = 'pa-toast ' + type }, 3200)
+}
+
+function validRFC(rfc){ return /^[A-ZÑ&]{3,4}\d{6}[A-Z\d]{3}$/i.test(rfc.trim()) }
+function validCURP(curp){ return /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z\d]{2}$/i.test(curp.trim()) }
+function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) }
+function fmtMXN(n){ return '$' + Number(n||0).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2}) }
+function escapeHTML(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
+
+function openPortalLogin(){
+  portalState.currentView = 'login'
+  document.body.style.overflow = 'hidden'
+  document.getElementById('portal-app').classList.add('open')
+  renderPortal()
+}
+function closePortal(){
+  document.body.style.overflow = ''
+  document.getElementById('portal-app').classList.remove('open')
+  portalState.currentUser = null
+  document.getElementById('pa-user-info').style.display = 'none'
+}
+
+function renderPortal(){
+  const c = document.getElementById('pa-content')
+  if(portalState.currentView === 'login') c.innerHTML = viewLogin()
+  else if(portalState.currentView === 'onboarding') c.innerHTML = viewOnboarding()
+  else if(portalState.currentView === 'dashboard') c.innerHTML = viewDashboard()
+  window.scrollTo(0,0)
+}
+
+/* ═══ LOGIN ═══ */
+function viewLogin(){
+  return `
+    <div class="pa-login-wrap">
+      <div class="lock-icon">🔐</div>
+      <h2 style="font-family:var(--fd);font-size:1.4rem;font-weight:700;text-align:center;color:var(--text);margin-bottom:6px">Portal de Clientes</h2>
+      <p style="text-align:center;color:var(--text2);font-size:.88rem;margin-bottom:24px">Acceso exclusivo Impulsa SOFOM</p>
+      <div class="pa-tabs">
+        <button class="pa-tab active" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
+        <button class="pa-tab" id="tab-register" onclick="switchTab('register')">Registrarme</button>
+      </div>
+      <div id="login-pane">
+        <div class="pa-fg"><label>Correo electrónico</label><input type="email" id="li-email" placeholder="tu@correo.com"/></div>
+        <div class="pa-fg"><label>Contraseña</label><input type="password" id="li-pass" placeholder="••••••••"/><span class="help">Demo: cualquier contraseña con 4+ caracteres</span></div>
+        <button class="btn btn-p btn-full btn-lg" onclick="doLogin()" style="margin-top:8px">Ingresar →</button>
+        <p style="text-align:center;font-size:.78rem;color:var(--text3);margin-top:14px">¿Olvidaste tu contraseña? <a href="#" style="color:var(--g2);font-weight:600">Recupérala aquí</a></p>
+      </div>
+      <div id="register-pane" style="display:none">
+        <p style="background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);border-radius:10px;padding:12px;font-size:.82rem;color:var(--text);margin-bottom:18px">
+          📝 Al registrarte iniciarás el proceso de onboarding. Un asesor revisará tu información antes de aprobar tu acceso.
+        </p>
+        <div class="pa-fg"><label>Correo electrónico <span class="req">*</span></label><input type="email" id="reg-email" placeholder="tu@correo.com"/></div>
+        <div class="pa-fg"><label>Crea una contraseña <span class="req">*</span></label><input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres"/></div>
+        <button class="btn btn-p btn-full btn-lg" onclick="startOnboarding()">Empezar onboarding →</button>
+      </div>
+    </div>
+    <div style="max-width:440px;margin:18px auto 0;text-align:center;font-size:.78rem;color:var(--text3);line-height:1.6">
+      <span style="background:#fef3c7;border:1px solid #fcd34d;color:#92400e;padding:8px 14px;border-radius:8px;display:inline-block">
+        🚧 <strong>Demo</strong> — Los datos se guardan localmente en tu navegador
+      </span>
+    </div>
+  `
+}
+function switchTab(which){
+  document.getElementById('tab-login').classList.toggle('active', which==='login')
+  document.getElementById('tab-register').classList.toggle('active', which==='register')
+  document.getElementById('login-pane').style.display = which==='login' ? 'block':'none'
+  document.getElementById('register-pane').style.display = which==='register' ? 'block':'none'
+}
+
+function doLogin(){
+  const email = document.getElementById('li-email').value.trim()
+  const pass = document.getElementById('li-pass').value
+  if(!validEmail(email)){ toast('Correo no válido', 'error'); return }
+  if(pass.length < 4){ toast('Contraseña muy corta', 'error'); return }
+
+  const db = loadDB()
+  let cliente = db.clientes.find(c => c.email.toLowerCase() === email.toLowerCase())
+
+  // Demo: si no existe, creamos un cliente aprobado de ejemplo
+  if(!cliente){
+    cliente = {
+      id: 'demo-' + Date.now(),
+      email: email,
+      tipoPersona: 'moral',
+      razonSocial: 'Cliente Demo S.A. de C.V.',
+      rfc: 'CDE240101ABC',
+      estado: 'aprobado',
+      lineaCredito: 2500000,
+      lineaUsada: 0,
+      tasa: 1.8,
+      fechaAprobacion: new Date().toISOString()
+    }
+    db.clientes.push(cliente)
+    saveDB(db)
+  }
+
+  if(cliente.estado === 'pendiente'){ toast('Tu solicitud está en revisión. Te avisaremos pronto.', 'error'); return }
+  if(cliente.estado === 'rechazado'){ toast('Acceso denegado. Contacta al asesor.', 'error'); return }
+
+  portalState.currentUser = cliente
+  portalState.currentView = 'dashboard'
+  showUserInNav(cliente)
+  renderPortal()
+  toast('Bienvenido, ' + (cliente.razonSocial || cliente.nombreCompleto || cliente.email))
+}
+
+function showUserInNav(cliente){
+  const ui = document.getElementById('pa-user-info')
+  ui.style.display = 'flex'
+  document.getElementById('pa-user-name').textContent = cliente.razonSocial || cliente.nombreCompleto || cliente.email
+  const initial = (cliente.razonSocial || cliente.nombreCompleto || cliente.email).charAt(0).toUpperCase()
+  document.getElementById('pa-avatar').textContent = initial
+}
+
+function startOnboarding(){
+  const email = document.getElementById('reg-email').value.trim()
+  const pass = document.getElementById('reg-pass').value
+  if(!validEmail(email)){ toast('Correo no válido', 'error'); return }
+  if(pass.length < 8){ toast('Contraseña mínimo 8 caracteres', 'error'); return }
+  portalState.onboardingData = { email: email, pass: pass }
+  portalState.onboardingStep = 1
+  portalState.currentView = 'onboarding'
+  renderPortal()
+}
+
+/* ═══ ONBOARDING ═══ */
+function viewOnboarding(){
+  const step = portalState.onboardingStep
+  const total = 4
+  const progress = ((step-1)/(total-1))*100
+  let stepHTML = ''
+  if(step === 1) stepHTML = stepTipoPersona()
+  else if(step === 2) stepHTML = stepDatosGenerales()
+  else if(step === 3) stepHTML = stepDocumentos()
+  else if(step === 4) stepHTML = stepResumen()
+
+  const steps = [
+    {n:1,l:'Tipo de persona'},
+    {n:2,l:'Datos generales'},
+    {n:3,l:'Documentos'},
+    {n:4,l:'Confirmar'}
+  ]
+
+  return `
+    <div style="max-width:780px;margin:0 auto">
+      <h1 class="pa-h1">Alta de cliente</h1>
+      <p class="pa-sub">Completa la información para activar tu línea de factoraje. Tiempo estimado: 8 minutos.</p>
+      <div class="pa-steps">
+        <div class="pa-steps-progress" style="width:${progress}%"></div>
+        ${steps.map(s => `
+          <div class="pa-step ${step===s.n?'active':''} ${step>s.n?'done':''}">
+            <div class="pa-step-circle">${step>s.n ? '✓' : s.n}</div>
+            <div class="pa-step-label">${s.l}</div>
+          </div>
+        `).join('')}
+      </div>
+      ${stepHTML}
+    </div>
+  `
+}
+
+function stepTipoPersona(){
+  const tp = portalState.onboardingData.tipoPersona
+  return `
+    <div class="pa-card">
+      <div class="pa-card-h">¿Qué tipo de persona eres?</div>
+      <div class="pa-card-sub">Esto determina los documentos que solicitaremos.</div>
+      <div class="pa-radio-grp">
+        <div class="pa-radio ${tp==='fisica'?'selected':''}" onclick="selectTipoPersona('fisica')">
+          <div class="pa-radio-icon">👤</div>
+          <div class="pa-radio-text"><strong>Persona Física</strong><span>Con o sin actividad empresarial</span></div>
+        </div>
+        <div class="pa-radio ${tp==='moral'?'selected':''}" onclick="selectTipoPersona('moral')">
+          <div class="pa-radio-icon">🏢</div>
+          <div class="pa-radio-text"><strong>Persona Moral</strong><span>Sociedad o empresa constituida</span></div>
+        </div>
+      </div>
+      <div class="pa-nav-btns">
+        <button class="pa-btn-back" onclick="cancelOnboarding()">← Cancelar</button>
+        <button class="pa-btn-next" onclick="goNextStep()" ${!tp?'disabled':''}>Continuar →</button>
+      </div>
+    </div>
+  `
+}
+function selectTipoPersona(tp){ portalState.onboardingData.tipoPersona = tp; renderPortal() }
+
+function stepDatosGenerales(){
+  const tp = portalState.onboardingData.tipoPersona
+  const d = portalState.onboardingData
+  if(tp === 'moral'){
+    return `
+      <div class="pa-card">
+        <div class="pa-card-h">Datos de la empresa</div>
+        <div class="pa-card-sub">Información fiscal y de contacto.</div>
+        <div class="pa-fg"><label>Razón social <span class="req">*</span></label><input type="text" id="og-razon" value="${escapeHTML(d.razonSocial||'')}" placeholder="Empresa Ejemplo S.A. de C.V."/></div>
+        <div class="pa-grid-2">
+          <div class="pa-fg"><label>RFC <span class="req">*</span></label><input type="text" id="og-rfc" value="${escapeHTML(d.rfc||'')}" placeholder="ABC121212XYZ" style="text-transform:uppercase" maxlength="13"/><span class="err" id="err-rfc">RFC no válido</span></div>
+          <div class="pa-fg"><label>Régimen fiscal <span class="req">*</span></label>
+            <select id="og-regimen">
+              <option value="">Selecciona...</option>
+              <option ${d.regimen==='601'?'selected':''} value="601">601 - General de Ley Personas Morales</option>
+              <option ${d.regimen==='603'?'selected':''} value="603">603 - Personas Morales Fines no Lucrativos</option>
+              <option ${d.regimen==='620'?'selected':''} value="620">620 - Sociedades Cooperativas</option>
+              <option ${d.regimen==='623'?'selected':''} value="623">623 - Opcional Grupos de Sociedades</option>
+              <option ${d.regimen==='626'?'selected':''} value="626">626 - Régimen Simplificado de Confianza</option>
+            </select>
+          </div>
+        </div>
+        <div class="pa-grid-2">
+          <div class="pa-fg"><label>Fecha de constitución <span class="req">*</span></label><input type="date" id="og-fechacons" value="${d.fechaConstitucion||''}"/></div>
+          <div class="pa-fg"><label>Sector / giro <span class="req">*</span></label><input type="text" id="og-giro" value="${escapeHTML(d.giro||'')}" placeholder="Ej. Construcción, comercio..."/></div>
+        </div>
+        <div class="pa-card-h" style="font-size:1rem;margin-top:18px;margin-bottom:10px">Representante legal</div>
+        <div class="pa-grid-2">
+          <div class="pa-fg"><label>Nombre completo <span class="req">*</span></label><input type="text" id="og-replegal" value="${escapeHTML(d.repLegal||'')}" placeholder="Nombre del representante"/></div>
+          <div class="pa-fg"><label>RFC del representante <span class="req">*</span></label><input type="text" id="og-replegal-rfc" value="${escapeHTML(d.repLegalRFC||'')}" placeholder="ABCD850101XYZ" style="text-transform:uppercase" maxlength="13"/></div>
+        </div>
+        ${commonContactoFields(d)}
+        <div class="pa-nav-btns">
+          <button class="pa-btn-back" onclick="goPrevStep()">← Atrás</button>
+          <button class="pa-btn-next" onclick="saveDatosGenerales()">Continuar →</button>
+        </div>
+      </div>
+    `
+  } else {
+    return `
+      <div class="pa-card">
+        <div class="pa-card-h">Datos personales</div>
+        <div class="pa-card-sub">Información fiscal y de contacto.</div>
+        <div class="pa-grid-2">
+          <div class="pa-fg"><label>Nombre(s) <span class="req">*</span></label><input type="text" id="og-nombre" value="${escapeHTML(d.nombre||'')}" placeholder="Juan"/></div>
+          <div class="pa-fg"><label>Apellidos <span class="req">*</span></label><input type="text" id="og-apellidos" value="${escapeHTML(d.apellidos||'')}" placeholder="Pérez García"/></div>
+        </div>
+        <div class="pa-grid-2">
+          <div class="pa-fg"><label>RFC <span class="req">*</span></label><input type="text" id="og-rfc" value="${escapeHTML(d.rfc||'')}" placeholder="ABCD850101XYZ" style="text-transform:uppercase" maxlength="13"/><span class="err" id="err-rfc">RFC no válido</span></div>
+          <div class="pa-fg"><label>CURP <span class="req">*</span></label><input type="text" id="og-curp" value="${escapeHTML(d.curp||'')}" placeholder="ABCD850101HDFXYZ01" style="text-transform:uppercase" maxlength="18"/><span class="err" id="err-curp">CURP no válido</span></div>
+        </div>
+        <div class="pa-grid-2">
+          <div class="pa-fg"><label>Fecha de nacimiento <span class="req">*</span></label><input type="date" id="og-fechanac" value="${d.fechaNac||''}"/></div>
+          <div class="pa-fg"><label>Régimen fiscal <span class="req">*</span></label>
+            <select id="og-regimen">
+              <option value="">Selecciona...</option>
+              <option ${d.regimen==='605'?'selected':''} value="605">605 - Sueldos y Salarios</option>
+              <option ${d.regimen==='612'?'selected':''} value="612">612 - Actividades Empresariales y Profesionales</option>
+              <option ${d.regimen==='621'?'selected':''} value="621">621 - Incorporación Fiscal</option>
+              <option ${d.regimen==='625'?'selected':''} value="625">625 - Plataformas Tecnológicas</option>
+              <option ${d.regimen==='626'?'selected':''} value="626">626 - Régimen Simplificado de Confianza</option>
+            </select>
+          </div>
+        </div>
+        ${commonContactoFields(d)}
+        <div class="pa-nav-btns">
+          <button class="pa-btn-back" onclick="goPrevStep()">← Atrás</button>
+          <button class="pa-btn-next" onclick="saveDatosGenerales()">Continuar →</button>
+        </div>
+      </div>
+    `
+  }
+}
+
+function commonContactoFields(d){
+  return `
+    <div class="pa-card-h" style="font-size:1rem;margin-top:18px;margin-bottom:10px">Domicilio fiscal</div>
+    <div class="pa-fg"><label>Calle y número <span class="req">*</span></label><input type="text" id="og-calle" value="${escapeHTML(d.calle||'')}" placeholder="Av. Constitución 1234"/></div>
+    <div class="pa-grid-3">
+      <div class="pa-fg"><label>Colonia <span class="req">*</span></label><input type="text" id="og-colonia" value="${escapeHTML(d.colonia||'')}"/></div>
+      <div class="pa-fg"><label>CP <span class="req">*</span></label><input type="text" id="og-cp" value="${escapeHTML(d.cp||'')}" maxlength="5" placeholder="64000"/></div>
+      <div class="pa-fg"><label>Ciudad <span class="req">*</span></label><input type="text" id="og-ciudad" value="${escapeHTML(d.ciudad||'')}" placeholder="Monterrey"/></div>
+    </div>
+    <div class="pa-grid-2">
+      <div class="pa-fg"><label>Estado <span class="req">*</span></label><input type="text" id="og-estado" value="${escapeHTML(d.estadoPais||'')}" placeholder="Nuevo León"/></div>
+      <div class="pa-fg"><label>Teléfono <span class="req">*</span></label><input type="tel" id="og-tel" value="${escapeHTML(d.telefono||'')}" placeholder="81 0000 0000"/></div>
+    </div>
+  `
+}
+
+function saveDatosGenerales(){
+  const tp = portalState.onboardingData.tipoPersona
+  const d = portalState.onboardingData
+  const rfc = document.getElementById('og-rfc').value.toUpperCase().trim()
+  if(!validRFC(rfc)){
+    document.getElementById('og-rfc').classList.add('invalid')
+    document.getElementById('err-rfc').classList.add('show')
+    toast('Revisa el formato del RFC', 'error'); return
+  }
+  if(tp === 'moral'){
+    const fields = ['og-razon','og-regimen','og-fechacons','og-giro','og-replegal','og-replegal-rfc']
+    for(const f of fields){
+      const el = document.getElementById(f)
+      if(!el.value.trim()){ toast('Completa todos los campos requeridos','error'); el.focus(); return }
+    }
+    d.razonSocial = document.getElementById('og-razon').value.trim()
+    d.regimen = document.getElementById('og-regimen').value
+    d.fechaConstitucion = document.getElementById('og-fechacons').value
+    d.giro = document.getElementById('og-giro').value.trim()
+    d.repLegal = document.getElementById('og-replegal').value.trim()
+    d.repLegalRFC = document.getElementById('og-replegal-rfc').value.toUpperCase().trim()
+  } else {
+    const fields = ['og-nombre','og-apellidos','og-curp','og-fechanac','og-regimen']
+    for(const f of fields){
+      const el = document.getElementById(f)
+      if(!el.value.trim()){ toast('Completa todos los campos requeridos','error'); el.focus(); return }
+    }
+    const curp = document.getElementById('og-curp').value.toUpperCase().trim()
+    if(!validCURP(curp)){
+      document.getElementById('og-curp').classList.add('invalid')
+      document.getElementById('err-curp').classList.add('show')
+      toast('Revisa el formato del CURP','error'); return
+    }
+    d.nombre = document.getElementById('og-nombre').value.trim()
+    d.apellidos = document.getElementById('og-apellidos').value.trim()
+    d.curp = curp
+    d.fechaNac = document.getElementById('og-fechanac').value
+    d.regimen = document.getElementById('og-regimen').value
+  }
+  d.rfc = rfc
+  d.calle = document.getElementById('og-calle').value.trim()
+  d.colonia = document.getElementById('og-colonia').value.trim()
+  d.cp = document.getElementById('og-cp').value.trim()
+  d.ciudad = document.getElementById('og-ciudad').value.trim()
+  d.estadoPais = document.getElementById('og-estado').value.trim()
+  d.telefono = document.getElementById('og-tel').value.trim()
+  if(!d.calle || !d.colonia || !d.cp || !d.ciudad || !d.estadoPais || !d.telefono){
+    toast('Completa el domicilio y teléfono','error'); return
+  }
+  goNextStep()
+}
+
+function stepDocumentos(){
+  const tp = portalState.onboardingData.tipoPersona
+  const docs = portalState.onboardingData.documentos || {}
+  const docList = tp === 'moral' ? [
+    {key:'acta', label:'Acta constitutiva', req:true, hint:'PDF de la escritura pública'},
+    {key:'csf', label:'Constancia de Situación Fiscal', req:true, hint:'CSF reciente (no mayor a 3 meses)'},
+    {key:'ineLegal', label:'INE del representante legal', req:true, hint:'Frente y reverso, PDF o JPG'},
+    {key:'comprobante', label:'Comprobante de domicilio', req:true, hint:'CFE, agua o teléfono < 3 meses'},
+    {key:'edoFinanciero', label:'Estados financieros últimos 2 ejercicios', req:true, hint:'Balance + Estado de Resultados'},
+    {key:'opinion', label:'Opinión de cumplimiento SAT', req:true, hint:'Positiva, descargada del portal SAT'}
+  ] : [
+    {key:'ine', label:'Identificación oficial (INE)', req:true, hint:'Frente y reverso'},
+    {key:'curpDoc', label:'CURP certificada', req:false, hint:'Opcional, descargada de gob.mx'},
+    {key:'csf', label:'Constancia de Situación Fiscal', req:true, hint:'CSF reciente del SAT'},
+    {key:'comprobante', label:'Comprobante de domicilio', req:true, hint:'Recibo < 3 meses'},
+    {key:'estadoCuenta', label:'Estados de cuenta últimos 3 meses', req:true, hint:'PDF emitido por el banco'}
+  ]
+  return `
+    <div class="pa-card">
+      <div class="pa-card-h">Carga de documentos</div>
+      <div class="pa-card-sub">Sube los documentos para verificación. Formatos: PDF, JPG, PNG (máx 10 MB cada uno).</div>
+      ${docList.map(doc => `
+        <div style="margin-bottom:18px">
+          <div class="pa-doc-label">${doc.label} ${doc.req?'<span class="req">*</span>':''}</div>
+          ${ docs[doc.key] ? renderUploadedFile(doc.key, docs[doc.key]) : `
+            <label class="pa-upload">
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="handleDocUpload(event,'${doc.key}')"/>
+              <div class="pa-up-icon">📎</div>
+              <div class="pa-up-title">Click para subir archivo</div>
+              <div class="pa-up-hint">${doc.hint}</div>
+            </label>
+          `}
+        </div>
+      `).join('')}
+      <div class="pa-nav-btns">
+        <button class="pa-btn-back" onclick="goPrevStep()">← Atrás</button>
+        <button class="pa-btn-next" onclick="validateDocsAndContinue()">Continuar →</button>
+      </div>
+    </div>
+  `
+}
+
+function renderUploadedFile(key, file){
+  const sizeKB = (file.size/1024).toFixed(0)
+  return `
+    <div class="pa-upload has-file">
+      <div class="pa-up-file">
+        <div class="pa-up-file-icon">📄</div>
+        <div class="pa-up-file-info">
+          <div class="pa-up-file-name">${escapeHTML(file.name)}</div>
+          <div class="pa-up-file-meta">${sizeKB} KB · ${escapeHTML(file.type||'archivo')}</div>
+        </div>
+        <button class="pa-up-remove" onclick="removeDoc('${key}')">Quitar</button>
+      </div>
+    </div>
+  `
+}
+
+function handleDocUpload(ev, key){
+  const file = ev.target.files[0]
+  if(!file) return
+  if(file.size > 10*1024*1024){ toast('Archivo demasiado grande (máx 10 MB)','error'); return }
+  if(!portalState.onboardingData.documentos) portalState.onboardingData.documentos = {}
+  portalState.onboardingData.documentos[key] = { name:file.name, size:file.size, type:file.type }
+  toast('Documento cargado: ' + file.name)
+  renderPortal()
+}
+
+function removeDoc(key){
+  delete portalState.onboardingData.documentos[key]
+  renderPortal()
+}
+
+function validateDocsAndContinue(){
+  const tp = portalState.onboardingData.tipoPersona
+  const docs = portalState.onboardingData.documentos || {}
+  const required = tp==='moral'
+    ? ['acta','csf','ineLegal','comprobante','edoFinanciero','opinion']
+    : ['ine','csf','comprobante','estadoCuenta']
+  const missing = required.filter(k => !docs[k])
+  if(missing.length){ toast('Faltan documentos requeridos','error'); return }
+  goNextStep()
+}
+
+function stepResumen(){
+  const d = portalState.onboardingData
+  const docs = d.documentos || {}
+  const tp = d.tipoPersona
+  return `
+    <div class="pa-card">
+      <div class="pa-card-h">Confirma tu información</div>
+      <div class="pa-card-sub">Revisa los datos antes de enviar. La solicitud será revisada en 24-48 horas hábiles.</div>
+      <div style="background:rgba(34,197,94,.04);border:1px solid var(--borderg2);border-radius:14px;padding:20px;margin-bottom:18px">
+        <div style="font-size:.78rem;font-weight:700;color:var(--g2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Datos generales</div>
+        ${tp==='moral' ? `
+          <div class="pa-cfdi-row"><span>Razón social</span><span>${escapeHTML(d.razonSocial)}</span></div>
+          <div class="pa-cfdi-row"><span>RFC</span><span>${escapeHTML(d.rfc)}</span></div>
+          <div class="pa-cfdi-row"><span>Régimen</span><span>${escapeHTML(d.regimen)}</span></div>
+          <div class="pa-cfdi-row"><span>Representante legal</span><span>${escapeHTML(d.repLegal)}</span></div>
+          <div class="pa-cfdi-row"><span>Giro</span><span>${escapeHTML(d.giro)}</span></div>
+        ` : `
+          <div class="pa-cfdi-row"><span>Nombre</span><span>${escapeHTML(d.nombre+' '+d.apellidos)}</span></div>
+          <div class="pa-cfdi-row"><span>RFC</span><span>${escapeHTML(d.rfc)}</span></div>
+          <div class="pa-cfdi-row"><span>CURP</span><span>${escapeHTML(d.curp)}</span></div>
+          <div class="pa-cfdi-row"><span>Régimen</span><span>${escapeHTML(d.regimen)}</span></div>
+        `}
+        <div class="pa-cfdi-row"><span>Domicilio</span><span>${escapeHTML(d.calle+', '+d.colonia+', '+d.cp+' '+d.ciudad+', '+d.estadoPais)}</span></div>
+        <div class="pa-cfdi-row"><span>Contacto</span><span>${escapeHTML(d.email+' · '+d.telefono)}</span></div>
+      </div>
+      <div style="background:rgba(34,197,94,.04);border:1px solid var(--borderg2);border-radius:14px;padding:20px;margin-bottom:18px">
+        <div style="font-size:.78rem;font-weight:700;color:var(--g2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Documentos cargados (${Object.keys(docs).length})</div>
+        ${Object.entries(docs).map(([k,f])=>`<div class="pa-cfdi-row"><span>${escapeHTML(k)}</span><span>${escapeHTML(f.name)}</span></div>`).join('')}
+      </div>
+      <div style="background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.2);border-radius:10px;padding:14px;margin-bottom:18px;font-size:.82rem;color:var(--text);display:flex;gap:10px;align-items:flex-start">
+        <input type="checkbox" id="acept" style="margin-top:3px"/>
+        <label for="acept" style="cursor:pointer;line-height:1.5">
+          Declaro bajo protesta que la información proporcionada es verídica. Acepto el <a href="#" style="color:var(--g2);font-weight:600">Aviso de Privacidad</a> y los <a href="#" style="color:var(--g2);font-weight:600">Términos y Condiciones</a> de Impulsa SOFOM E.N.R.
+        </label>
+      </div>
+      <div class="pa-nav-btns">
+        <button class="pa-btn-back" onclick="goPrevStep()">← Atrás</button>
+        <button class="pa-btn-next" onclick="finalizeOnboarding()">Enviar solicitud ✓</button>
+      </div>
+    </div>
+  `
+}
+
+function goNextStep(){ portalState.onboardingStep++; renderPortal() }
+function goPrevStep(){ portalState.onboardingStep--; renderPortal() }
+function cancelOnboarding(){
+  if(confirm('¿Cancelar el alta? Perderás los datos ingresados.')){
+    portalState.currentView='login'; portalState.onboardingData={}; renderPortal()
+  }
+}
+
+function finalizeOnboarding(){
+  if(!document.getElementById('acept').checked){ toast('Debes aceptar los términos','error'); return }
+  const d = portalState.onboardingData
+  const db = loadDB()
+  const cliente = {
+    id: 'cli-' + Date.now(),
+    email: d.email,
+    tipoPersona: d.tipoPersona,
+    razonSocial: d.razonSocial || null,
+    nombreCompleto: d.nombre ? (d.nombre + ' ' + d.apellidos) : null,
+    rfc: d.rfc,
+    regimen: d.regimen,
+    domicilio: { calle:d.calle, colonia:d.colonia, cp:d.cp, ciudad:d.ciudad, estado:d.estadoPais },
+    telefono: d.telefono,
+    documentos: d.documentos,
+    estado: 'pendiente',
+    lineaCredito: 0,
+    lineaUsada: 0,
+    fechaSolicitud: new Date().toISOString()
+  }
+  db.clientes.push(cliente)
+  saveDB(db)
+
+  document.getElementById('pa-content').innerHTML = `
+    <div class="pa-card" style="max-width:520px;margin:60px auto;text-align:center">
+      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--g3),var(--g4));margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;color:#fff;box-shadow:0 8px 30px rgba(34,197,94,.4)">✓</div>
+      <h2 style="font-family:var(--fd);font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:10px">¡Solicitud enviada!</h2>
+      <p style="color:var(--text2);font-size:.95rem;line-height:1.6;margin-bottom:24px">Tu información está siendo revisada. Te notificaremos al correo <strong>${escapeHTML(d.email)}</strong> en cuanto sea aprobada (24-48 hrs hábiles).</p>
+      <div style="background:rgba(34,197,94,.06);border:1px solid var(--borderg2);border-radius:12px;padding:16px;margin-bottom:24px;font-size:.85rem;color:var(--text);text-align:left">
+        <strong>Folio de solicitud:</strong><br/>
+        <code style="font-family:monospace;color:var(--g2);font-size:1rem">${escapeHTML(cliente.id)}</code>
+      </div>
+      <button class="btn btn-p btn-lg" onclick="closePortal()">Cerrar</button>
+    </div>
+  `
+  toast('Solicitud enviada con éxito', 'success')
+}
+
+/* ═══ DASHBOARD ═══ */
+function viewDashboard(){
+  const u = portalState.currentUser
+  const db = loadDB()
+  const facturas = db.facturas.filter(f => f.clienteId === u.id)
+  const lineaUsada = facturas.filter(f => ['validada','pendiente'].includes(f.estado))
+                              .reduce((s,f) => s + (f.total||0), 0)
+  const disponible = (u.lineaCredito||0) - lineaUsada
+  const usado = u.lineaCredito ? Math.round((lineaUsada/u.lineaCredito)*100) : 0
+  const firstName = (u.razonSocial||u.nombreCompleto||u.email).split(' ')[0]
+
+  return `
+    <h1 class="pa-h1">Hola, ${escapeHTML(firstName)} 👋</h1>
+    <p class="pa-sub">Bienvenido a tu portal de factoraje.</p>
+    <div class="pa-demo-banner">
+      ⚠️ <strong>Modo demo</strong> — Las facturas se almacenan en tu navegador. Las validaciones SAT requieren integración con un PAC (Facturama, SW Sapien, etc.) en producción.
+    </div>
+    <div class="pa-stat-grid">
+      <div class="pa-stat">
+        <div class="pa-stat-lbl">Línea autorizada</div>
+        <div class="pa-stat-val">${fmtMXN(u.lineaCredito)}</div>
+        <div class="pa-stat-foot">Tasa: ${u.tasa||'—'}% mensual</div>
+      </div>
+      <div class="pa-stat">
+        <div class="pa-stat-lbl">Disponible</div>
+        <div class="pa-stat-val g">${fmtMXN(disponible)}</div>
+        <div class="pa-stat-bar"><div class="pa-stat-bar-fill" style="width:${100-usado}%"></div></div>
+      </div>
+      <div class="pa-stat">
+        <div class="pa-stat-lbl">En operación</div>
+        <div class="pa-stat-val b">${fmtMXN(lineaUsada)}</div>
+        <div class="pa-stat-foot">${usado}% usado</div>
+      </div>
+      <div class="pa-stat">
+        <div class="pa-stat-lbl">Facturas totales</div>
+        <div class="pa-stat-val">${facturas.length}</div>
+        <div class="pa-stat-foot">${facturas.filter(f=>f.estado==='pagada').length} pagadas</div>
+      </div>
+    </div>
+    <div class="pa-section-h">
+      <h3>Mis facturas</h3>
+      <button class="pa-btn-next" onclick="openModal()">＋ Cargar factura</button>
+    </div>
+    <div class="pa-table-wrap">
+      ${facturas.length ? `
+        <table class="pa-table">
+          <thead><tr><th>Folio / UUID</th><th>Emisor</th><th>Fecha</th><th>Total</th><th>Estado</th></tr></thead>
+          <tbody>
+            ${facturas.slice().reverse().map(f => `
+              <tr>
+                <td><strong>${escapeHTML((f.serie||'')+(f.folio||'—'))}</strong><br/><span class="pa-uuid">${escapeHTML((f.uuid||'').substring(0,18))}...</span></td>
+                <td>${escapeHTML(f.emisorNombre||'—')}<br/><span class="pa-uuid">${escapeHTML(f.emisorRFC||'')}</span></td>
+                <td>${f.fecha ? new Date(f.fecha).toLocaleDateString('es-MX') : '—'}</td>
+                <td class="pa-monto">${fmtMXN(f.total)}</td>
+                <td><span class="pa-badge pa-badge-${f.estado}">${labelEstado(f.estado)}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      ` : `
+        <div class="pa-empty">
+          <div class="pa-empty-icon">📭</div>
+          <div class="pa-empty-h">Aún no has cargado facturas</div>
+          <p style="font-size:.85rem">Sube tu primer CFDI para comenzar a operar.</p>
+        </div>
+      `}
+    </div>
+  `
+}
+
+function labelEstado(e){
+  const m = { pendiente:'En validación', validada:'Validada SAT', rechazada:'Rechazada', pagada:'Pagada' }
+  return m[e] || e
+}
+
+/* ═══ MODAL CARGA FACTURA ═══ */
+function openModal(){
+  portalState.pendingFactura = { xml:null, pdf:null, parsed:null }
+  document.getElementById('pa-modal-factura').classList.add('open')
+  resetModalUploads()
+}
+function closeModal(){ document.getElementById('pa-modal-factura').classList.remove('open') }
+
+function resetModalUploads(){
+  document.getElementById('up-xml-label').className = 'pa-upload'
+  document.getElementById('up-xml-label').innerHTML = `
+    <input type="file" accept=".xml,text/xml" onchange="handleXMLUpload(event)"/>
+    <div class="pa-up-icon">📄</div>
+    <div class="pa-up-title">Click para subir XML</div>
+    <div class="pa-up-hint">Archivo .xml del SAT</div>
+  `
+  document.getElementById('up-pdf-label').className = 'pa-upload'
+  document.getElementById('up-pdf-label').innerHTML = `
+    <input type="file" accept=".pdf,application/pdf" onchange="handlePDFUpload(event)"/>
+    <div class="pa-up-icon">📕</div>
+    <div class="pa-up-title">Click para subir PDF</div>
+    <div class="pa-up-hint">Representación impresa</div>
+  `
+  document.getElementById('pa-cfdi-info').innerHTML = ''
+  document.getElementById('pa-submit-factura').disabled = true
+}
+
+function handleXMLUpload(ev){
+  const file = ev.target.files[0]
+  if(!file) return
+  if(file.size > 5*1024*1024){ toast('XML muy grande','error'); return }
+  const reader = new FileReader()
+  reader.onload = e => {
+    try{
+      const parsed = parseCFDI(e.target.result)
+      portalState.pendingFactura.xml = { name:file.name, size:file.size }
+      portalState.pendingFactura.parsed = parsed
+      renderXMLLoaded(file, parsed)
+      renderCFDIPreview(parsed)
+      checkSubmitReady()
+    }catch(err){
+      toast('No se pudo leer el XML: ' + err.message, 'error')
+    }
+  }
+  reader.readAsText(file)
+}
+
+function parseCFDI(xmlText){
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(xmlText, 'text/xml')
+  if(doc.querySelector('parsererror')) throw new Error('XML mal formado')
+
+  // Buscar Comprobante con o sin namespace
+  let comprobante = doc.querySelector('Comprobante')
+  if(!comprobante){
+    const all = doc.getElementsByTagName('*')
+    for(const el of all){ if(el.localName === 'Comprobante'){ comprobante = el; break } }
+  }
+  if(!comprobante) throw new Error('No es un CFDI válido')
+
+  function findEl(name){
+    let el = doc.querySelector(name)
+    if(el) return el
+    const all = doc.getElementsByTagName('*')
+    for(const e of all){ if(e.localName === name) return e }
+    return null
+  }
+
+  const emisor = findEl('Emisor')
+  const receptor = findEl('Receptor')
+  const tfd = findEl('TimbreFiscalDigital')
+
+  const getAttr = (el, ...names) => {
+    if(!el) return ''
+    for(const n of names){
+      const v = el.getAttribute(n)
+      if(v) return v
+    }
+    return ''
+  }
+
+  return {
+    version: getAttr(comprobante, 'Version', 'version'),
+    serie: getAttr(comprobante, 'Serie'),
+    folio: getAttr(comprobante, 'Folio'),
+    fecha: getAttr(comprobante, 'Fecha'),
+    total: parseFloat(getAttr(comprobante, 'Total') || 0),
+    subtotal: parseFloat(getAttr(comprobante, 'SubTotal') || 0),
+    moneda: getAttr(comprobante, 'Moneda') || 'MXN',
+    metodoPago: getAttr(comprobante, 'MetodoPago'),
+    formaPago: getAttr(comprobante, 'FormaPago'),
+    tipoComprobante: getAttr(comprobante, 'TipoDeComprobante'),
+    emisorRFC: getAttr(emisor, 'Rfc', 'RFC'),
+    emisorNombre: getAttr(emisor, 'Nombre'),
+    receptorRFC: getAttr(receptor, 'Rfc', 'RFC'),
+    receptorNombre: getAttr(receptor, 'Nombre'),
+    receptorUsoCFDI: getAttr(receptor, 'UsoCFDI'),
+    uuid: getAttr(tfd, 'UUID'),
+    fechaTimbrado: getAttr(tfd, 'FechaTimbrado')
+  }
+}
+
+function renderXMLLoaded(file, parsed){
+  const sizeKB = (file.size/1024).toFixed(0)
+  document.getElementById('up-xml-label').className = 'pa-upload has-file'
+  document.getElementById('up-xml-label').innerHTML = `
+    <div class="pa-up-file">
+      <div class="pa-up-file-icon">📄</div>
+      <div class="pa-up-file-info">
+        <div class="pa-up-file-name">${escapeHTML(file.name)}</div>
+        <div class="pa-up-file-meta">${sizeKB} KB · CFDI ${escapeHTML(parsed.version||'?')}</div>
+      </div>
+      <button class="pa-up-remove" onclick="removeXML(event)">Quitar</button>
+    </div>
+  `
+}
+
+function removeXML(ev){
+  ev.preventDefault(); ev.stopPropagation()
+  portalState.pendingFactura.xml = null
+  portalState.pendingFactura.parsed = null
+  document.getElementById('up-xml-label').className = 'pa-upload'
+  document.getElementById('up-xml-label').innerHTML = `
+    <input type="file" accept=".xml,text/xml" onchange="handleXMLUpload(event)"/>
+    <div class="pa-up-icon">📄</div>
+    <div class="pa-up-title">Click para subir XML</div>
+    <div class="pa-up-hint">Archivo .xml del SAT</div>
+  `
+  document.getElementById('pa-cfdi-info').innerHTML = ''
+  checkSubmitReady()
+}
+
+function renderCFDIPreview(p){
+  const valid = p.uuid && p.emisorRFC && p.total > 0
+  document.getElementById('pa-cfdi-info').innerHTML = `
+    <div class="pa-cfdi-preview">
+      <div class="pa-cfdi-preview-h">${valid ? '✓ CFDI parseado correctamente' : '⚠ Verifica el XML'}</div>
+      <div class="pa-cfdi-row"><span>UUID</span><span>${escapeHTML(p.uuid||'—')}</span></div>
+      <div class="pa-cfdi-row"><span>Folio</span><span>${escapeHTML((p.serie||'')+(p.folio||'—'))}</span></div>
+      <div class="pa-cfdi-row"><span>Emisor</span><span>${escapeHTML(p.emisorNombre||'—')} (${escapeHTML(p.emisorRFC||'—')})</span></div>
+      <div class="pa-cfdi-row"><span>Receptor</span><span>${escapeHTML(p.receptorNombre||'—')} (${escapeHTML(p.receptorRFC||'—')})</span></div>
+      <div class="pa-cfdi-row"><span>Fecha emisión</span><span>${p.fecha ? new Date(p.fecha).toLocaleDateString('es-MX') : '—'}</span></div>
+      <div class="pa-cfdi-row"><span>Total</span><span style="color:var(--g2);font-size:.95rem">${fmtMXN(p.total)} ${escapeHTML(p.moneda)}</span></div>
+      <div class="pa-cfdi-row"><span>Método de pago</span><span>${escapeHTML(p.metodoPago||'—')}</span></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--text3);line-height:1.5">
+      ℹ️ En producción, este CFDI será validado contra el SAT vía Facturama / SW Sapien para confirmar que está vigente.
+    </div>
+  `
+}
+
+function handlePDFUpload(ev){
+  const file = ev.target.files[0]
+  if(!file) return
+  if(file.size > 10*1024*1024){ toast('PDF muy grande','error'); return }
+  portalState.pendingFactura.pdf = { name:file.name, size:file.size }
+  const sizeKB = (file.size/1024).toFixed(0)
+  document.getElementById('up-pdf-label').className = 'pa-upload has-file'
+  document.getElementById('up-pdf-label').innerHTML = `
+    <div class="pa-up-file">
+      <div class="pa-up-file-icon">📕</div>
+      <div class="pa-up-file-info">
+        <div class="pa-up-file-name">${escapeHTML(file.name)}</div>
+        <div class="pa-up-file-meta">${sizeKB} KB · PDF</div>
+      </div>
+      <button class="pa-up-remove" onclick="removePDF(event)">Quitar</button>
+    </div>
+  `
+  checkSubmitReady()
+}
+
+function removePDF(ev){
+  ev.preventDefault(); ev.stopPropagation()
+  portalState.pendingFactura.pdf = null
+  document.getElementById('up-pdf-label').className = 'pa-upload'
+  document.getElementById('up-pdf-label').innerHTML = `
+    <input type="file" accept=".pdf,application/pdf" onchange="handlePDFUpload(event)"/>
+    <div class="pa-up-icon">📕</div>
+    <div class="pa-up-title">Click para subir PDF</div>
+    <div class="pa-up-hint">Representación impresa</div>
+  `
+  checkSubmitReady()
+}
+
+function checkSubmitReady(){
+  const ready = portalState.pendingFactura.xml && portalState.pendingFactura.pdf && portalState.pendingFactura.parsed
+  document.getElementById('pa-submit-factura').disabled = !ready
+}
+
+function submitFactura(){
+  const p = portalState.pendingFactura.parsed
+  const u = portalState.currentUser
+
+  if(p.receptorRFC && u.rfc && p.receptorRFC.toUpperCase() !== u.rfc.toUpperCase()){
+    if(!confirm('El receptor del CFDI ('+p.receptorRFC+') no coincide con tu RFC ('+u.rfc+'). ¿Continuar de todos modos?')) return
+  }
+
+  const db = loadDB()
+  if(p.uuid && db.facturas.find(f => f.uuid === p.uuid && f.clienteId === u.id)){
+    toast('Esta factura ya fue cargada anteriormente','error'); return
+  }
+
+  const factura = {
+    id: 'fac-' + Date.now(),
+    clienteId: u.id,
+    uuid: p.uuid,
+    serie: p.serie,
+    folio: p.folio,
+    fecha: p.fecha,
+    total: p.total,
+    subtotal: p.subtotal,
+    moneda: p.moneda,
+    emisorRFC: p.emisorRFC,
+    emisorNombre: p.emisorNombre,
+    receptorRFC: p.receptorRFC,
+    receptorNombre: p.receptorNombre,
+    estado: 'pendiente',
+    fechaCarga: new Date().toISOString(),
+    archivos: { xml: portalState.pendingFactura.xml, pdf: portalState.pendingFactura.pdf }
+  }
+  db.facturas.push(factura)
+  saveDB(db)
+
+  closeModal()
+  toast('Factura enviada a validación SAT')
+
+  // Simular validación automática (demo)
+  setTimeout(()=>{
+    const db2 = loadDB()
+    const f = db2.facturas.find(x => x.id === factura.id)
+    if(f){
+      f.estado = 'validada'
+      f.fechaValidacion = new Date().toISOString()
+      saveDB(db2)
+      if(portalState.currentView === 'dashboard') renderPortal()
+      toast('✓ Factura validada por el SAT')
+    }
+  }, 2500)
+
+  renderPortal()
+}
+
+document.getElementById('pa-modal-factura').addEventListener('click', e => {
+  if(e.target.id === 'pa-modal-factura') closeModal()
+})
+</script>
+
+</body>
+</html>
