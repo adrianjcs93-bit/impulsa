@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portal de Clientes — Impulsa SOFOM E.N.R.</title>
+<meta name="description" content="Portal exclusivo para clientes de Impulsa SOFOM. Solicita tu alta o carga facturas para operación de factoraje."/>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PORTAL DE CLIENTES — IMPULSA SOFOM E.N.R.
+
+     ⚠ INSTRUCCIONES PARA ACTUALIZAR LOS LINKS DE GOOGLE FORMS:
+
+     Cuando tu asistente termine de armar los formularios, reemplaza:
+
+     1. FORMULARIO DE ALTA / ONBOARDING:
+        Busca: REEMPLAZAR_LINK_ONBOARDING
+        Reemplázalo por la URL del Form 1 (ej. https://forms.gle/abc123)
+
+     2. FORMULARIO DE CARGA DE FACTURAS:
+        Busca: REEMPLAZAR_LINK_FACTURAS
+        Reemplázalo por la URL del Form 2 (ej. https://forms.gle/xyz789)
+
+     Para obtener el link público de un Google Form:
+     Abrir el form → click en "Enviar" (arriba a la derecha) → ícono de
+     enlace 🔗 → copiar el URL (activa "URL corta" si quieres uno más limpio)
+     ════════════════════════════════════════════════════════════════════ -->
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#FFFFFF;
+  --surface:#F4FAF6;
+  --g1:#0A4D2C;--g2:#0D7A3A;--g3:#16B058;--g4:#22C55E;--g5:#4ADE80;
+  --b1:#0A2D6E;--b2:#1646A8;--b3:#2563EB;--b4:#3B82F6;--b5:#60A5FA;
+  --border:rgba(34,197,94,0.12);--border2:rgba(34,197,94,0.25);
+  --borderg:rgba(34,197,94,0.15);--borderg2:rgba(34,197,94,0.28);
+  --text:#0F2416;--text2:#2D6A42;--text3:#5A8A6C;
+  --fd:'DM Sans',sans-serif;--fb:'Inter',sans-serif;
+  --nav:72px;--r:12px;--r2:20px;--r3:28px;
+  --shadow:0 4px 24px rgba(15,46,24,0.08);
+  --shadow2:0 8px 40px rgba(15,46,24,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:linear-gradient(180deg,#f0faf3 0%,#f4f9ff 50%,#f0faf3 100%);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--fb);cursor:pointer;border:none;background:none}
+::selection{background:rgba(34,197,94,0.2);color:var(--g1)}
+
+/* Nav */
+#nav{position:sticky;top:0;z-index:100;height:var(--nav);background:rgba(255,255,255,0.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(34,197,94,0.15);box-shadow:0 1px 12px rgba(15,46,24,0.04)}
+.nav-in{height:100%;display:flex;align-items:center;gap:24px;max-width:1200px;margin:0 auto;padding:0 32px}
+.logo{display:flex;align-items:center;flex-shrink:0;gap:12px}
+.logo img{height:48px;width:auto;background:transparent !important;mix-blend-mode:multiply}
+.logo-text{font-family:var(--fd);font-weight:700;color:var(--g1);font-size:.95rem;display:none}
+.nav-back{margin-left:auto;display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:10px;font-size:.85rem;font-weight:600;color:var(--text2);background:rgba(34,197,94,0.06);border:1px solid var(--borderg);transition:all .2s}
+.nav-back:hover{background:rgba(34,197,94,0.12);color:var(--g2)}
+
+@media(min-width:768px){.logo-text{display:block}}
+
+/* Hero */
+.hero{padding:64px 32px 24px}
+.hero-inner{max-width:780px;margin:0 auto;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.08);border:1px solid var(--border2);border-radius:99px;padding:6px 16px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g4);margin-bottom:24px}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--g4);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:var(--fd);font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:var(--text);margin-bottom:18px}
+.hero h1 span{background:linear-gradient(135deg,var(--g2),var(--g4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--text2);font-size:1.05rem;line-height:1.7;max-width:580px;margin:0 auto}
+
+/* Cards */
+.cards-wrap{padding:32px 32px 64px;max-width:1200px;margin:0 auto;width:100%;flex:1}
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:8px}
+.portal-card{background:#fff;border:1px solid var(--border2);border-radius:var(--r3);padding:44px 38px;transition:all .3s;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.portal-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(15,46,24,0.12);border-color:var(--g4)}
+.portal-card-tag{display:inline-block;padding:5px 14px;background:rgba(34,197,94,.08);border:1px solid var(--borderg2);border-radius:99px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g2);margin-bottom:20px;align-self:flex-start}
+.portal-card-tag.b{background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.25);color:var(--b3)}
+.portal-card-icon{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--g3),var(--g4));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:22px;box-shadow:0 8px 24px rgba(34,197,94,.25)}
+.portal-card-icon.b{background:linear-gradient(135deg,var(--b2),var(--b4));box-shadow:0 8px 24px rgba(37,99,235,.25)}
+.portal-card h3{font-family:var(--fd);font-size:1.5rem;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:12px;letter-spacing:-.01em}
+.portal-card>p{font-size:.95rem;color:var(--text2);line-height:1.65;margin-bottom:24px}
+.portal-steps{margin-bottom:28px;flex:1}
+.portal-step{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid rgba(34,197,94,0.08)}
+.portal-step:last-child{border-bottom:none}
+.portal-step-n{width:26px;height:26px;border-radius:50%;background:rgba(34,197,94,.12);color:var(--g2);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fd)}
+.portal-step-n.b{background:rgba(37,99,235,.1);color:var(--b3)}
+.portal-step-text{font-size:.88rem;color:var(--text);line-height:1.5}
+.portal-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 24px;background:linear-gradient(135deg,var(--g3),var(--g4));color:#fff;border-radius:var(--r2);font-weight:700;font-size:.95rem;text-decoration:none;transition:all .25s;border:none;cursor:pointer;font-family:var(--fb)}
+.portal-cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(34,197,94,.35)}
+.portal-cta.b{background:linear-gradient(135deg,var(--b2),var(--b4))}
+.portal-cta.b:hover{box-shadow:0 12px 30px rgba(37,99,235,.35)}
+
+/* Help banner */
+.help-banner{margin-top:40px;padding:24px 28px;background:#fff;border:1px solid var(--border2);border-radius:var(--r2);display:flex;align-items:center;gap:20px;box-shadow:var(--shadow)}
+.help-icon{width:48px;height:48px;border-radius:12px;background:rgba(34,197,94,.08);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.help-text{flex:1}
+.help-text strong{display:block;font-size:.95rem;color:var(--text);font-weight:700;margin-bottom:3px;font-family:var(--fd)}
+.help-text p{font-size:.85rem;color:var(--text2);line-height:1.5}
+.help-cta{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:1.5px solid var(--borderg2);border-radius:10px;font-size:.85rem;font-weight:600;color:var(--text2);background:#fff;transition:all .2s}
+.help-cta:hover{border-color:var(--g4);color:var(--g4)}
+
+/* Trust strip */
+.trust-strip{margin-top:36px;padding:20px 24px;background:rgba(255,255,255,0.6);border:1px solid var(--border);border-radius:var(--r2);display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
+.trust-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.trust-item-icon{font-size:1.3rem;opacity:.85}
+.trust-item-text{font-size:.78rem;color:var(--text2);font-weight:500;line-height:1.35}
+
+/* Footer */
+footer{background:#0F2416;color:#cbd5d1;padding:32px;text-align:center;font-size:.82rem}
+footer p{margin-bottom:6px;line-height:1.6}
+footer p.legal{color:#7a9087;font-size:.74rem;max-width:780px;margin:8px auto 0;line-height:1.5}
+
+/* Responsive */
+@media(max-width:768px){
+  .cards-grid{grid-template-columns:1fr;gap:18px}
+  .portal-card{padding:32px 26px}
+  .help-banner{flex-direction:column;text-align:center;padding:22px}
+  .trust-strip{grid-template-columns:1fr 1fr;gap:14px}
+  .hero{padding:48px 24px 16px}
+  .cards-wrap{padding:24px 24px 48px}
+  .nav-in{padding:0 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-in">
+    <a href="index.html" class="logo">
+      <img src="Impulsa_grupo_financiero_transparente.png" alt="Impulsa SOFOM E.N.R."/>
+      <span class="logo-text">Portal de clientes</span>
+    </a>
+    <a href="index.html" class="nav-back">← Volver al sitio</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Portal de clientes
+    </span>
+    <h1>Operación segura,<br/><span>simple y profesional.</span></h1>
+    <p>Selecciona la opción que corresponde a tu situación. Todo el proceso es 100% digital y la información que compartes está protegida bajo nuestro Aviso de Privacidad.</p>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="cards-wrap">
+  <div class="cards-grid">
+
+    <!-- TARJETA 1: ALTA / ONBOARDING -->
+    <div class="portal-card">
+      <span class="portal-card-tag">Soy cliente nuevo</span>
+      <div class="portal-card-icon">📋</div>
+      <h3>Solicitar alta como cliente</h3>
+      <p>Comparte tu información y documentación para iniciar tu proceso de alta como cliente de Impulsa SOFOM. Aplica para personas físicas con actividad empresarial y personas morales.</p>
+
+      <div class="portal-steps">
+        <div class="portal-step">
+          <div class="portal-step-n">1</div>
+          <div class="portal-step-text">Llenas el formulario en línea con tus datos fiscales y de contacto</div>
+        </div>
+        <div class="portal-step">
+          <div class="portal-step-n">2</div>
+          <div class="portal-step-text">Adjuntas los documentos requeridos (INE, CSF, estados financieros)</div>
+        </div>
+        <div class="portal-step">
+          <div class="portal-step-n">3</div>
+          <div class="portal-step-text">Nuestro equipo revisa tu expediente en 24-48 horas hábiles</div>
+        </div>
+        <div class="portal-step">
+          <div class="portal-step-n">4</div>
+          <div class="portal-step-text">Te contactamos con la resolución y condiciones de tu línea</div>
+        </div>
+      </div>
+
+      <a href="REEMPLAZAR_LINK_ONBOARDING" target="_blank" rel="noopener" class="portal-cta">
+        Iniciar solicitud de alta →
+      </a>
+    </div>
+
+    <!-- TARJETA 2: CARGA DE FACTURAS -->
+    <div class="portal-card">
+      <span class="portal-card-tag b">Ya soy cliente</span>
+      <div class="portal-card-icon b">📤</div>
+      <h3>Cargar factura para factoraje</h3>
+      <p>Si tu línea de factoraje ya está aprobada, sube aquí las facturas que deseas operar. Validamos cada CFDI ante el SAT antes de procesar la dispersión.</p>
+
+      <div class="portal-steps">
+        <div class="portal-step">
+          <div class="portal-step-n b">1</div>
+          <div class="portal-step-text">Adjuntas el XML y el PDF de tu CFDI</div>
+        </div>
+        <div class="portal-step">
+          <div class="portal-step-n b">2</div>
+          <div class="portal-step-text">Verificamos la vigencia de la factura ante el SAT</div>
+        </div>
+        <div class="portal-step">
+          <div class="portal-step-n b">3</div>
+          <div class="portal-step-text">Confirmamos la operación dentro de tu línea autorizada</div>
+        </div>
+        <div class="portal-step">
+          <div class="portal-step-n b">4</div>
+          <div class="portal-step-text">Dispersamos los recursos a tu cuenta registrada en menos de 24h</div>
+        </div>
+      </div>
+
+      <a href="REEMPLAZAR_LINK_FACTURAS" target="_blank" rel="noopener" class="portal-cta b">
+        Subir factura para operar →
+      </a>
+    </div>
+
+  </div>
+
+  <!-- BANNER DE AYUDA -->
+  <div class="help-banner">
+    <div class="help-icon">💬</div>
+    <div class="help-text">
+      <strong>¿Tienes dudas antes de empezar?</strong>
+      <p>Un asesor puede acompañarte en el proceso o resolver cualquier duda sobre nuestros productos y requisitos.</p>
+    </div>
+    <a href="index.html#contacto" class="help-cta">Contáctanos →</a>
+  </div>
+
+  <!-- TRUST STRIP -->
+  <div class="trust-strip">
+    <div class="trust-item">
+      <div class="trust-item-icon">🔒</div>
+      <div class="trust-item-text">Información protegida bajo LFPDPPP</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-icon">⚡</div>
+      <div class="trust-item-text">Respuesta en menos de 48 horas hábiles</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-icon">📋</div>
+      <div class="trust-item-text">Validación de CFDIs ante el SAT</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-icon">✓</div>
+      <div class="trust-item-text">Cumplimiento NOM-179 y PLD</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong style="color:#fff">Impulsa SOFOM E.N.R.</strong> — Portal de clientes</p>
+  <p>© 2025 Impulsa SOFOM E.N.R. Todos los derechos reservados.</p>
+  <p class="legal">Sociedad Financiera de Objeto Múltiple, Entidad No Regulada. La presente entidad no está regulada por la Comisión Nacional Bancaria y de Valores (CNBV). Las operaciones crediticias están sujetas a aprobación y análisis de riesgo.</p>
+</footer>
+
+</body>
+</html>
