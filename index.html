@@ -136,7 +136,7 @@ h1{font-family:var(--fd);font-size:clamp(3rem,5.5vw,5.2rem);font-weight:700;line
 .ck-g{background:rgba(22,176,88,.08);border:1px solid var(--borderg2);color:var(--g2)}
 
 /* ── PORTAL LOGIN ── */
-#portal{background:linear-gradient(135deg,#EEF3FF 0%,#F0FDF4 100%);border-top:1px solid var(--border)}
+/* portal-clientes ahora vive en portal.html separado */
 .portal-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .portal-info h2{margin-bottom:16px}
 .portal-info p{font-size:.975rem;color:var(--text2);line-height:1.75;margin-bottom:24px}
@@ -268,7 +268,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
       <li><a href="#productos" style=";text-decoration:none">Productos</a></li>
       <li><a href="#nosotros" style=";text-decoration:none">Nosotros</a></li>
       <li><a href="#contacto" style=";text-decoration:none">Contacto</a></li>
-      <li><a href="#portal" style=";text-decoration:none">Portal Clientes</a></li>
+      <li><a href="portal.html" style=";text-decoration:none">Portal Clientes</a></li>
     </ul>
     <a href="#solicitud" class="btn btn-sm btn-p nav-cta" style="flex-shrink:0;margin-left:16px;text-decoration:none">Solicitar →</a>
     <button class="burger" onclick="toggleMenu()" id="burger">
@@ -283,7 +283,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
   <a href="#productos" style=";text-decoration:none" onclick="toggleMenu()">Productos</a>
   <a href="#nosotros" style=";text-decoration:none" onclick="toggleMenu()">Nosotros</a>
   <a href="#contacto" style=";text-decoration:none" onclick="toggleMenu()">Contacto</a>
-  <a href="#portal" style=";text-decoration:none" onclick="toggleMenu()">Portal Clientes</a>
+  <a href="portal.html" style=";text-decoration:none" onclick="toggleMenu()">Portal Clientes</a>
   <a href="#solicitud" class="btn btn-p" style="margin-top:20px;justify-content:center;display:flex;text-decoration:none" onclick="toggleMenu()">Solicitar ahora →</a>
 </div>
 
@@ -302,7 +302,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
         <p class="hero-sub">Fomentando vehículos crediticios para el crecimiento de tu persona física y moral.</p>
         <div class="hero-actions">
           <a href="#solicitud" class="btn btn-p btn-lg" style=";text-decoration:none">Solicitar ahora →</a>
-          <a href="#portal" class="btn btn-o btn-lg" style=";text-decoration:none">Portal clientes</a>
+          <a href="portal.html" class="btn btn-o btn-lg" style=";text-decoration:none">Portal clientes</a>
         </div>
         <div class="hero-stats">
           <div><div class="hs-num">24h</div><div class="hs-lbl">Aprobación</div></div>
@@ -419,152 +419,6 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
       </div>
 
     </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════
-     PORTAL CLIENTES
-     ════════════════════════════════════════════════════════════════════
-     ⚠️ INSTRUCCIONES PARA ACTUALIZAR LOS LINKS DE GOOGLE FORMS:
-
-     Cuando tu asistente termine de armar los formularios en Google Forms,
-     reemplaza los siguientes dos enlaces:
-
-     1. FORMULARIO DE ALTA / ONBOARDING:
-        Busca: REEMPLAZAR_LINK_ONBOARDING
-        Reemplázalo por la URL del Form 1 (ej. https://forms.gle/abc123)
-
-     2. FORMULARIO DE CARGA DE FACTURAS:
-        Busca: REEMPLAZAR_LINK_FACTURAS
-        Reemplázalo por la URL del Form 2 (ej. https://forms.gle/xyz789)
-
-     Para obtener el link público de un Google Form:
-     Abrir el form → click en "Enviar" (arriba a la derecha) → ícono de
-     enlace 🔗 → copiar el URL (puedes activar "URL corta" para uno más limpio)
-     ════════════════════════════════════════════════════════════════════ -->
-
-<style>
-.portal-v2{padding:0}
-.portal-v2-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:48px}
-.portal-card{background:#fff;border:1px solid var(--border2);border-radius:var(--r3);padding:44px 38px;transition:all .3s;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;flex-direction:column}
-.portal-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(15,46,24,0.12);border-color:var(--g4)}
-.portal-card-tag{display:inline-block;padding:5px 14px;background:rgba(34,197,94,.08);border:1px solid var(--borderg2);border-radius:99px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g2);margin-bottom:20px;align-self:flex-start}
-.portal-card-tag.b{background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.25);color:var(--b3)}
-.portal-card-icon{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--g3),var(--g4));display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:22px;box-shadow:0 8px 24px rgba(34,197,94,.25)}
-.portal-card-icon.b{background:linear-gradient(135deg,var(--b2),var(--b4));box-shadow:0 8px 24px rgba(37,99,235,.25)}
-.portal-card h3{font-family:var(--fd);font-size:1.5rem;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:12px;letter-spacing:-.01em}
-.portal-card>p{font-size:.95rem;color:var(--text2);line-height:1.65;margin-bottom:24px}
-.portal-steps{margin-bottom:28px;flex:1}
-.portal-step{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid rgba(34,197,94,0.08)}
-.portal-step:last-child{border-bottom:none}
-.portal-step-n{width:26px;height:26px;border-radius:50%;background:rgba(34,197,94,.12);color:var(--g2);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fd)}
-.portal-card-tag.b ~ .portal-steps .portal-step-n,.portal-step-n.b{background:rgba(37,99,235,.1);color:var(--b3)}
-.portal-step-text{font-size:.88rem;color:var(--text);line-height:1.5}
-.portal-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 24px;background:linear-gradient(135deg,var(--g3),var(--g4));color:#fff;border-radius:var(--r2);font-weight:700;font-size:.95rem;text-decoration:none;transition:all .25s;border:none;cursor:pointer;font-family:var(--fb)}
-.portal-cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(34,197,94,.35)}
-.portal-cta.b{background:linear-gradient(135deg,var(--b2),var(--b4))}
-.portal-cta.b:hover{box-shadow:0 12px 30px rgba(37,99,235,.35)}
-
-.portal-help{margin-top:48px;padding:28px 32px;background:#fff;border:1px solid var(--border2);border-radius:var(--r2);display:flex;align-items:center;gap:24px;box-shadow:var(--shadow)}
-.portal-help-icon{width:52px;height:52px;border-radius:14px;background:rgba(34,197,94,.08);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
-.portal-help-text{flex:1}
-.portal-help-text strong{display:block;font-size:1rem;color:var(--text);font-weight:700;margin-bottom:4px;font-family:var(--fd)}
-.portal-help-text p{font-size:.88rem;color:var(--text2);line-height:1.5}
-.portal-help-cta{flex-shrink:0}
-
-@media(max-width:768px){
-  .portal-v2-grid{grid-template-columns:1fr;gap:20px}
-  .portal-card{padding:32px 26px}
-  .portal-help{flex-direction:column;text-align:center;padding:24px}
-}
-</style>
-
-<section id="portal" class="sec" style="background:linear-gradient(135deg,#f0faf3 0%,#f4f9ff 100%);border-top:1px solid rgba(34,197,94,0.15)">
-  <div class="wrap">
-    <div class="anim" style="text-align:center;max-width:640px;margin:0 auto">
-      <span class="ey">Portal de clientes</span>
-      <h2 class="st" style="margin-bottom:18px">Operación segura,<br/>simple y profesional.</h2>
-      <p style="color:var(--text2);font-size:1.05rem;line-height:1.7">Selecciona la opción que corresponde a tu situación. Todo el proceso es 100% digital y la información que compartes está protegida bajo nuestro Aviso de Privacidad.</p>
-    </div>
-
-    <div class="portal-v2-grid">
-
-      <!-- TARJETA 1: ALTA / ONBOARDING -->
-      <div class="portal-card anim">
-        <span class="portal-card-tag">Soy cliente nuevo</span>
-        <div class="portal-card-icon">📋</div>
-        <h3>Solicitar alta como cliente</h3>
-        <p>Comparte tu información y documentación para iniciar tu proceso de alta como cliente de Impulsa SOFOM. Aplica para personas físicas con actividad empresarial y personas morales.</p>
-
-        <div class="portal-steps">
-          <div class="portal-step">
-            <div class="portal-step-n">1</div>
-            <div class="portal-step-text">Llenas el formulario en línea con tus datos fiscales y de contacto</div>
-          </div>
-          <div class="portal-step">
-            <div class="portal-step-n">2</div>
-            <div class="portal-step-text">Adjuntas los documentos requeridos (INE, CSF, estados financieros)</div>
-          </div>
-          <div class="portal-step">
-            <div class="portal-step-n">3</div>
-            <div class="portal-step-text">Nuestro equipo revisa tu expediente en 24-48 horas hábiles</div>
-          </div>
-          <div class="portal-step">
-            <div class="portal-step-n">4</div>
-            <div class="portal-step-text">Te contactamos con la resolución y condiciones de tu línea</div>
-          </div>
-        </div>
-
-        <a href="REEMPLAZAR_LINK_ONBOARDING" target="_blank" rel="noopener" class="portal-cta">
-          Iniciar solicitud de alta →
-        </a>
-      </div>
-
-      <!-- TARJETA 2: CARGA DE FACTURAS -->
-      <div class="portal-card anim" style="transition-delay:.1s">
-        <span class="portal-card-tag b">Ya soy cliente</span>
-        <div class="portal-card-icon b">📤</div>
-        <h3>Cargar factura para factoraje</h3>
-        <p>Si tu línea de factoraje ya está aprobada, sube aquí las facturas que deseas operar. Validamos cada CFDI ante el SAT antes de procesar la dispersión.</p>
-
-        <div class="portal-steps">
-          <div class="portal-step">
-            <div class="portal-step-n b">1</div>
-            <div class="portal-step-text">Adjuntas el XML y el PDF de tu CFDI</div>
-          </div>
-          <div class="portal-step">
-            <div class="portal-step-n b">2</div>
-            <div class="portal-step-text">Verificamos la vigencia de la factura ante el SAT</div>
-          </div>
-          <div class="portal-step">
-            <div class="portal-step-n b">3</div>
-            <div class="portal-step-text">Confirmamos la operación dentro de tu línea autorizada</div>
-          </div>
-          <div class="portal-step">
-            <div class="portal-step-n b">4</div>
-            <div class="portal-step-text">Dispersamos los recursos a tu cuenta registrada en menos de 24h</div>
-          </div>
-        </div>
-
-        <a href="REEMPLAZAR_LINK_FACTURAS" target="_blank" rel="noopener" class="portal-cta b">
-          Subir factura para operar →
-        </a>
-      </div>
-
-    </div>
-
-    <!-- BANNER DE AYUDA -->
-    <div class="portal-help anim" style="transition-delay:.2s">
-      <div class="portal-help-icon">💬</div>
-      <div class="portal-help-text">
-        <strong>¿Tienes dudas antes de empezar?</strong>
-        <p>Un asesor puede acompañarte en el proceso o resolver cualquier duda sobre nuestros productos y requisitos.</p>
-      </div>
-      <div class="portal-help-cta">
-        <a href="#contacto" class="btn btn-o" style="text-decoration:none">Contáctanos →</a>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -727,7 +581,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
         <div class="fcol">
           <h5>Clientes</h5>
           <ul>
-            <li><a href="#portal" style=";text-decoration:none">Portal Clientes</a></li>
+            <li><a href="portal.html" style=";text-decoration:none">Portal Clientes</a></li>
             <li><a href="#porque" style=";text-decoration:none">¿Por qué elegirnos?</a></li>
           </ul>
         </div>
@@ -766,9 +620,7 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:.08,rootMargin:'0px 0px -30px 0px'})
 document.querySelectorAll('.anim').forEach(el=>obs.observe(el))
 
-// La función loginPortal() ya no se usa: el portal ahora redirige a Google Forms
-// directamente desde los enlaces en la sección #portal. Se deja por compatibilidad.
-function loginPortal(){}
+// La sección del portal de clientes vive ahora en portal.html (página separada)
 function submitForm(){
   const nombre=document.getElementById('f-nombre').value
   const telefono=document.getElementById('f-telefono').value
