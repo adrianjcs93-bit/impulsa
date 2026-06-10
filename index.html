@@ -227,6 +227,23 @@ footer{background:var(--text);padding:56px 0 28px}
 footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
 .legal{font-size:.7rem;color:rgba(255,255,255,0.2);line-height:1.6;margin-top:8px}
 
+
+/* Footer regulatorio */
+.reg-grid{display:grid;grid-template-columns:1fr;gap:32px;padding:32px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:24px}
+.reg-col h5{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:12px;line-height:1.5}
+.reg-col p{font-size:.78rem;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:4px}
+.reg-col a{color:var(--g5);text-decoration:none}
+.reg-col a:hover{text-decoration:underline}
+.buro-box{padding:0 0 28px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.buro-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.buro-logo{height:40px;width:auto;background:#fff;border-radius:8px;padding:4px 8px}
+.buro-head h5{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+.buro-box p{font-size:.74rem;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:10px}
+.buro-box a{color:var(--g5);text-decoration:none}
+.buro-box a:hover{text-decoration:underline}
+.buro-leyenda{color:rgba(255,255,255,0.6)!important;font-style:italic}
+@media(max-width:768px){.reg-grid{grid-template-columns:1fr}}
+
 /* Responsive */
 @media(max-width:1024px){
   .hero-inner{grid-template-columns:1fr}
@@ -367,7 +384,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
           <li><span class="ck ck-g">✓</span>Renovación automática al liquidar</li>
           <li><span class="ck ck-g">✓</span>Para persona física y moral</li>
         </ul>
-        <a href="#solicitud" class="btn btn-g" style=";text-decoration:none">Solicitar información →</a>
+        <a href="producto-revolvente.html" class="btn btn-g" style=";text-decoration:none">Solicitar más información →</a>
       </div>
 
       <!-- 2. FACTORAJE -->
@@ -375,15 +392,15 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
         <div class="prod-tag-g">Para empresas</div>
         <div class="prod-icon">📄</div>
         <h3>Factoraje Financiero</h3>
-        <p>Convierte tus facturas en liquidez inmediata. Con o sin recurso, para deudores de gobierno y corporativos.</p>
+        <p>Convierte tus facturas en liquidez inmediata. Con o sin recurso, para deudores corporativos.</p>
         <ul class="prod-list">
           <li><span class="ck ck-g">✓</span>Anticipo de hasta el 90%</li>
           <li><span class="ck ck-g">✓</span>Con recurso y sin recurso</li>
-          <li><span class="ck ck-g">✓</span>Deudores gobierno y corporativos</li>
+          <li><span class="ck ck-g">✓</span>Deudores corporativos</li>
           <li><span class="ck ck-g">✓</span>Línea revolvente hasta 12 meses</li>
           <li><span class="ck ck-g">✓</span>No afecta capacidad crediticia</li>
         </ul>
-        <a href="#solicitud" class="btn btn-g" style=";text-decoration:none">Solicitar información →</a>
+        <a href="producto-factoraje.html" class="btn btn-g" style=";text-decoration:none">Solicitar más información →</a>
       </div>
 
       <!-- 3. CRÉDITO SIMPLE -->
@@ -399,7 +416,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
           <li><span class="ck ck-b">✓</span>Persona física y moral</li>
           <li><span class="ck ck-b">✓</span>Aprobación en 24–48 horas</li>
         </ul>
-        <a href="#solicitud" class="btn btn-p" style=";text-decoration:none">Solicitar información →</a>
+        <a href="producto-simple.html" class="btn btn-p" style=";text-decoration:none">Solicitar más información →</a>
       </div>
 
       <!-- 4. CRÉDITO NÓMINA -->
@@ -415,7 +432,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
           <li><span class="ck ck-b">✓</span>Sin consulta a Buró de Crédito</li>
           <li><span class="ck ck-b">✓</span>Pago anticipado sin penalización</li>
         </ul>
-        <a href="#solicitud" class="btn btn-p" style=";text-decoration:none">Solicitar información →</a>
+        <a href="producto-nomina.html" class="btn btn-p" style=";text-decoration:none">Solicitar más información →</a>
       </div>
 
     </div>
@@ -434,7 +451,7 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
       <div class="pq-item anim" style="transition-delay:.07s"><div class="pq-n">02</div><h4>Sin buró de crédito</h4><p>Para crédito nómina no consultamos buró. El descuento automático es nuestra garantía.</p></div>
       <div class="pq-item anim" style="transition-delay:.14s"><div class="pq-n">03</div><h4>Pagos fijos siempre</h4><p>Esquema de saldos globales. Pagas exactamente lo mismo cada quincena. Sin sorpresas.</p></div>
       <div class="pq-item anim" style="transition-delay:.21s"><div class="pq-n">04</div><h4>Pago anticipado libre</h4><p>Liquida cuando quieras sin penalización. Flexibilidad total para ti.</p></div>
-      <div class="pq-item anim" style="transition-delay:.28s"><div class="pq-n">05</div><h4>Expertos en factoraje</h4><p>Dominamos cadenas productivas y factoraje gubernamental. Te orientamos en cada paso.</p></div>
+      <div class="pq-item anim" style="transition-delay:.28s"><div class="pq-n">05</div><h4>Expertos en factoraje</h4><p>Dominamos cadenas productivas y factoraje a corporativos. Te orientamos en cada paso.</p></div>
       <div class="pq-item anim" style="transition-delay:.35s"><div class="pq-n">06</div><h4>Creces sin deuda</h4><p>El factoraje no es préstamo. No aparece en tu balance ni afecta tu capacidad crediticia.</p></div>
     </div>
   </div>
@@ -573,8 +590,8 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
         <div class="fcol">
           <h5>Productos</h5>
           <ul>
-            <li><a href="#productos" style=";text-decoration:none">Crédito Nómina</a></li>
-            <li><a href="#productos" style=";text-decoration:none">Factoraje Financiero</a></li>
+            <li><a href="producto-nomina.html" style=";text-decoration:none">Crédito Nómina</a></li>
+            <li><a href="producto-factoraje.html" style=";text-decoration:none">Factoraje Financiero</a></li>
             <li><a href="#solicitud" style=";text-decoration:none">Solicitar crédito</a></li>
           </ul>
         </div>
@@ -593,6 +610,27 @@ footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
           </ul>
         </div>
       </div>
+    </div>
+
+    <!-- INFORMACIÓN REGULATORIA -->
+    <div class="reg-grid">
+      <div class="reg-col">
+        <h5>Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros (CONDUSEF)</h5>
+        <p><strong>Domicilio:</strong> Av. Insurgentes Sur No. 762, Col. Del Valle, Alcaldía Benito Juárez, C.P. 03100, Ciudad de México</p>
+        <p><strong>Teléfonos:</strong> 55 5340 0999 y 800 999 8080</p>
+        <p><strong>Página de Internet:</strong> <a href="https://www.condusef.gob.mx" target="_blank" rel="noopener">www.condusef.gob.mx</a></p>
+        <p><strong>Correo electrónico:</strong> <a href="mailto:asesoria@condusef.gob.mx">asesoria@condusef.gob.mx</a></p>
+      </div>
+    </div>
+    <div class="buro-box">
+      <div class="buro-head">
+        <img src="buro-entidades-financieras.png" alt="Buró de Entidades Financieras" class="buro-logo" onerror="this.style.display='none'"/>
+        <h5>Buró de Entidades Financieras</h5>
+      </div>
+      <p>¿Qué es el Buró de Entidades Financieras? Es una herramienta de consulta y difusión con la que podrás conocer los productos que ofrecen las entidades financieras, sus comisiones y tasas, las reclamaciones de los usuarios, las prácticas no sanas en que incurren, las sanciones administrativas que les han impuesto, las cláusulas abusivas de sus contratos y otra información que resulte relevante para informarte sobre su desempeño. Con el Buró de Entidades Financieras, se logrará saber quién es quién en bancos, seguros, sociedades financieras de objeto múltiple, cajas de ahorro, afores, entre otras entidades. Con ello, podrás comparar y evaluar a las entidades financieras, sus productos y servicios y tendrás mayores elementos para elegir lo que más te convenga.</p>
+      <p>La información que de Grupo Financiero Impulsa consta en el Buró de Entidades Financieras puede consultarse en <a href="https://www.buro.gob.mx" target="_blank" rel="noopener">www.buro.gob.mx</a>. Dicha información corresponde únicamente a esta financiera; para conocer la información de todo el sector, podrás acceder al sitio <a href="http://www.buro.gob.mx" target="_blank" rel="noopener">http://www.buro.gob.mx</a>.</p>
+      <p class="buro-leyenda">“El Buró de Entidades Financieras contiene información de Grupo Financiero Impulsa sobre nuestro desempeño frente a los Usuarios, por la prestación de productos y servicios.”</p>
+      <p class="buro-leyenda">“Te invitamos a consultarlo en la página <a href="http://www.buro.gob.mx" target="_blank" rel="noopener">http://www.buro.gob.mx</a> o en nuestra página de internet <a href="https://gfimpulsa.mx" target="_blank" rel="noopener">gfimpulsa.mx</a>.”</p>
     </div>
     <p class="copy">© 2025 Impulsa SOFOM E.N.R. Todos los derechos reservados.</p>
     <p class="legal">Sociedad Financiera de Objeto Múltiple, Entidad No Regulada. La presente entidad no está regulada por la Comisión Nacional Bancaria y de Valores (CNBV). Las operaciones crediticias están sujetas a aprobación y análisis de riesgo.</p>

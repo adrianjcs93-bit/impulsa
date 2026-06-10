@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Crédito con Descuento de Nómina · Impulsa SOFOM E.N.R.</title>
+<meta name="description" content="Crédito con descuento vía nómina sin aval y sin consulta a buró. Tasas, CAT y requisitos."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#FFFFFF;--surface:#F4FAF6;--surface2:#E8F5ED;--surface3:#D4EBD9;
+  --g1:#0A4D2C;--g2:#0D7A3A;--g3:#16B058;--g4:#22C55E;--g5:#4ADE80;
+  --b1:#0A2D6E;--b2:#1646A8;--b3:#2563EB;--b4:#3B82F6;--b5:#60A5FA;
+  --border:rgba(34,197,94,0.12);--border2:rgba(34,197,94,0.25);
+  --borderg:rgba(34,197,94,0.15);--borderg2:rgba(34,197,94,0.28);
+  --text:#0F2416;--text2:#2D6A42;--text3:#5A8A6C;
+  --fd:'DM Sans',sans-serif;--fb:'Inter',sans-serif;
+  --nav:72px;--r:12px;--r2:20px;--r3:28px;
+  --shadow:0 4px 24px rgba(15,46,24,0.08);--shadow2:0 8px 40px rgba(15,46,24,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--ink);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}ul{list-style:none}
+button{font-family:var(--fb);cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#f0f7f2}::-webkit-scrollbar-thumb{background:var(--g2);border-radius:99px}
+::selection{background:rgba(34,197,94,0.2);color:var(--g1)}
+.wrap{width:100%;max-width:1100px;margin:0 auto;padding:0 32px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:var(--r);font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;border:1.5px solid transparent;white-space:nowrap}
+.btn-p{background:var(--g3);color:#fff;border-color:var(--g3)}
+.btn-p:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,176,88,0.3)}
+.btn-o{background:transparent;color:var(--text);border-color:rgba(34,197,94,0.3)}
+.btn-o:hover{border-color:var(--g4);color:var(--g4)}
+.btn-lg{padding:16px 36px;font-size:1rem;border-radius:var(--r2)}
+.btn-sm{padding:9px 18px;font-size:.82rem}
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav);background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(34,197,94,0.15);box-shadow:0 1px 12px rgba(15,46,24,0.06)}
+.nav-in{height:100%;display:flex;align-items:center;gap:32px}
+.logo img{height:56px;width:auto;mix-blend-mode:multiply}
+.nav-links{display:flex;align-items:center;gap:28px;margin-left:auto}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--text2);transition:color .2s}
+.nav-links a:hover{color:var(--g2)}
+.burger{display:none;flex-direction:column;gap:5px;padding:4px;margin-left:auto}
+.burger span{display:block;width:20px;height:1.5px;background:var(--text);border-radius:2px}
+.mob-menu{display:none;position:fixed;top:var(--nav);inset:0;top:var(--nav);background:rgba(255,255,255,0.98);backdrop-filter:blur(24px);z-index:99;padding:32px;flex-direction:column;gap:4px;border-top:1px solid var(--border)}
+.mob-menu.open{display:flex}
+.mob-menu a{font-size:1.1rem;font-weight:600;color:#0F2416;padding:16px 0;border-bottom:1px solid rgba(34,197,94,0.15)}
+.ey{display:block;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--g4);margin-bottom:12px}
+.st{font-family:var(--fd);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;line-height:1.12;letter-spacing:-.02em;color:var(--text)}
+/* Hero del producto */
+.p-hero{padding:calc(var(--nav) + 64px) 0 56px;background:linear-gradient(160deg,#f0faf3 0%,#ffffff 60%,#f0faf3 100%);border-bottom:1px solid var(--border)}
+.crumb{font-size:.8rem;color:var(--text3);margin-bottom:24px;display:inline-flex;gap:8px;align-items:center}
+.crumb a{color:var(--g2);font-weight:600}
+.crumb a:hover{text-decoration:underline}
+.p-tag{display:inline-block;padding:4px 12px;background:rgba(34,197,94,.08);border:1px solid var(--borderg2);border-radius:99px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g2);margin-bottom:18px}
+.p-hero h1{font-family:var(--fd);font-size:clamp(2.1rem,4vw,3.2rem);font-weight:800;letter-spacing:-.02em;line-height:1.08;margin-bottom:16px}
+.p-hero .sub{font-size:1.02rem;color:var(--text2);line-height:1.75;max-width:640px}
+.sec{padding:72px 0}
+/* Ficha de condiciones */
+.ficha{background:#fff;border:1px solid var(--border2);border-radius:var(--r3);box-shadow:var(--shadow2);overflow:hidden}
+.ficha-head{padding:24px 36px;background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.ficha-head h3{font-family:var(--fd);font-size:1.15rem;font-weight:700}
+.ficha-head span{font-size:.75rem;opacity:.85}
+table.tasas{width:100%;border-collapse:collapse}
+table.tasas td{padding:18px 36px;font-size:.95rem;border-bottom:1px solid var(--border)}
+table.tasas tr td:first-child{color:var(--text2)}
+table.tasas tr td:last-child{text-align:right;font-weight:700;font-family:var(--fd);font-size:1.05rem;color:var(--text)}
+table.tasas tr.cat-row{background:var(--surface2)}
+table.tasas tr.cat-row td{border-bottom:none;padding:24px 36px}
+table.tasas tr.cat-row td:first-child{font-weight:700;color:var(--g1)}
+.cat-val{font-size:1.6rem!important;color:var(--g2)!important}
+.cat-val small{font-size:.78rem;font-weight:600;color:var(--text3);margin-left:6px;text-transform:uppercase;letter-spacing:.04em}
+.ficha-foot{padding:14px 36px 20px;background:var(--surface2);font-size:.72rem;color:var(--text3);line-height:1.6}
+/* CAT por plazo */
+.cat-plazos{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:20px}
+.cp{background:#fff;border:1px solid var(--border2);border-radius:var(--r2);padding:18px;text-align:center;box-shadow:var(--shadow)}
+.cp .pl{font-size:.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.cp .va{font-family:var(--fd);font-size:1.3rem;font-weight:800;color:var(--g2)}
+.cp .iv{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.04em}
+/* Beneficios */
+.ben-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.ben{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:20px;box-shadow:var(--shadow)}
+.ben .ck{width:20px;height:20px;flex-shrink:0;border-radius:50%;background:rgba(34,197,94,.1);border:1px solid var(--borderg2);color:var(--g2);font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.ben p{font-size:.9rem;color:var(--text2);line-height:1.55}
+/* Requisitos */
+.req-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.req-card{background:#fff;border:1px solid var(--border2);border-radius:var(--r2);padding:32px;box-shadow:var(--shadow)}
+.req-card h4{font-family:var(--fd);font-size:1.05rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.req-card h4 .ic{width:34px;height:34px;border-radius:var(--r);background:rgba(34,197,94,.08);border:1px solid var(--borderg);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.req-card li{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--text2);padding:8px 0;border-bottom:1px solid var(--border)}
+.req-card li:last-child{border-bottom:none}
+.req-card li::before{content:'✓';flex-shrink:0;width:17px;height:17px;border-radius:50%;background:rgba(34,197,94,.08);border:1px solid var(--borderg2);color:var(--g2);font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:3px}
+/* Leyendas */
+.leyendas{background:#FFF9EC;border:1px solid #F0DEB4;border-radius:var(--r2);padding:28px 32px}
+.leyendas h5{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8A6D1F;margin-bottom:12px}
+.leyendas p{font-size:.85rem;color:#6B5618;line-height:1.65;margin-bottom:8px}
+.leyendas p:last-child{margin-bottom:0}
+/* CTA */
+.cta-box{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:var(--r3);padding:56px 44px;text-align:center;color:#fff}
+.cta-box h2{font-family:var(--fd);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:12px}
+.cta-box p{opacity:.85;margin-bottom:28px;font-size:.95rem}
+.cta-box .btn{background:#fff;color:var(--g1);border-color:#fff}
+.cta-box .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+footer{background:var(--text);padding:44px 0 24px}
+footer .copy{font-size:.8rem;color:rgba(226,245,233,0.35)}
+.legal{font-size:.7rem;color:rgba(255,255,255,0.25);line-height:1.6;margin-top:8px}
+.footer-logo img{height:42px;mix-blend-mode:screen;opacity:.95}
+
+/* Footer regulatorio */
+.reg-grid{display:grid;grid-template-columns:1fr;gap:32px;padding:32px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:24px}
+.reg-col h5{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:12px;line-height:1.5}
+.reg-col p{font-size:.78rem;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:4px}
+.reg-col a{color:var(--g5);text-decoration:none}
+.reg-col a:hover{text-decoration:underline}
+.buro-box{padding:0 0 28px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.buro-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.buro-logo{height:40px;width:auto;background:#fff;border-radius:8px;padding:4px 8px}
+.buro-head h5{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+.buro-box p{font-size:.74rem;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:10px}
+.buro-box a{color:var(--g5);text-decoration:none}
+.buro-box a:hover{text-decoration:underline}
+.buro-leyenda{color:rgba(255,255,255,0.6)!important;font-style:italic}
+@media(max-width:768px){.reg-grid{grid-template-columns:1fr}}
+
+@media(max-width:768px){
+  .wrap{padding:0 20px}.sec{padding:56px 0}
+  .nav-links{display:none}.burger{display:flex}
+  .req-grid{grid-template-columns:1fr}
+  table.tasas td{padding:15px 20px}
+  table.tasas tr.cat-row td{padding:20px}
+  .ficha-head,.ficha-foot{padding-left:20px;padding-right:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="index.html">
+      <img src="Impulsa_grupo_financiero_transparente.png" alt="Impulsa SOFOM E.N.R."/>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#productos">Productos</a></li>
+      <li><a href="index.html#nosotros">Nosotros</a></li>
+      <li><a href="index.html#contacto">Contacto</a></li>
+      <li><a href="portal.html">Portal Clientes</a></li>
+    </ul>
+    <a href="index.html#solicitud" class="btn btn-sm btn-p" style="flex-shrink:0;margin-left:16px">Solicitar →</a>
+    <button class="burger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html">Inicio</a>
+  <a href="index.html#productos">Productos</a>
+  <a href="index.html#nosotros">Nosotros</a>
+  <a href="index.html#contacto">Contacto</a>
+  <a href="portal.html">Portal Clientes</a>
+</div>
+
+<!-- HERO PRODUCTO -->
+<header class="p-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html#productos">← Productos</a> / Crédito con Descuento de Nómina</div>
+    <div class="p-tag">Para empleados</div>
+    <h1>💳 Crédito con Descuento de Nómina</h1>
+    <p class="sub">Sin trámites complicados, sin aval y sin consulta a Buró de Crédito. El descuento se aplica automáticamente de tu quincena con pagos fijos que nunca cambian.</p>
+  </div>
+</header>
+
+<!-- CONDICIONES -->
+<section class="sec" style="background:var(--surface)">
+  <div class="wrap">
+    <span class="ey">Tasas y comisiones</span>
+    <h2 class="st" style="margin-bottom:28px">Condiciones del producto.</h2>
+    <div class="ficha">
+      <div class="ficha-head"><h3>Crédito con Descuento de Nómina</h3><span>Información vigente · 10 de junio de 2026</span></div>
+      <table class="tasas">
+        <tr><td>Comisión por apertura</td><td>2%</td></tr>
+        <tr><td>Tasa fija anual</td><td>48%</td></tr>
+        <tr><td>Plazo</td><td>6 – 36 meses</td></tr>
+        <tr class="cat-row">
+          <td>CAT Promedio</td>
+          <td class="cat-val">66.3%<small>sin IVA</small></td>
+        </tr>
+      </table>
+      <div class="ficha-foot">CAT (Costo Anual Total) promedio expresado en términos porcentuales anuales, sin IVA, para fines informativos y de comparación. Calculado conforme a la metodología del Banco de México (Circular 21/2009). Fecha de cálculo: 10 de junio de 2026. Sujeto a aprobación de crédito.</div>
+    </div>
+    <div class="cat-plazos">
+      <div class="cp"><div class="pl">6 meses</div><div class="va">72.0%</div><div class="iv">CAT sin IVA</div></div>
+      <div class="cp"><div class="pl">12 meses</div><div class="va">66.7%</div><div class="iv">CAT sin IVA</div></div>
+      <div class="cp"><div class="pl">24 meses</div><div class="va">63.8%</div><div class="iv">CAT sin IVA</div></div>
+      <div class="cp"><div class="pl">36 meses</div><div class="va">62.8%</div><div class="iv">CAT sin IVA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="sec" style="background:#fff">
+  <div class="wrap">
+    <span class="ey">Beneficios</span>
+    <h2 class="st" style="margin-bottom:28px">¿Por qué elegir este producto?</h2>
+    <div class="ben-grid">
+      <div class="ben"><span class="ck">✓</span><p>Montos flexibles según tu perfil y capacidad de descuento</p></div>
+      <div class="ben"><span class="ck">✓</span><p>Descuento automático de tu nómina: nunca olvidas un pago</p></div>
+      <div class="ben"><span class="ck">✓</span><p>Sin consulta a Buró de Crédito</p></div>
+      <div class="ben"><span class="ck">✓</span><p>Pagos fijos quincenales, sin sorpresas</p></div>
+      <div class="ben"><span class="ck">✓</span><p>Pago anticipado sin penalización</p></div>
+      <div class="ben"><span class="ck">✓</span><p>Aprobación en menos de 24 horas</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUISITOS -->
+<section class="sec" style="background:var(--surface)">
+  <div class="wrap">
+    <span class="ey">Requisitos</span>
+    <h2 class="st" style="margin-bottom:28px">Documentación necesaria.</h2>
+    <div class="req-grid" style="grid-template-columns:1fr;max-width:640px">
+      <div class="req-card"><h4><span class="ic">👤</span>Empleado</h4><ul>
+        <li>Identificación oficial vigente (INE o pasaporte)</li>
+        <li>CURP</li>
+        <li>Comprobante de domicilio (recibos de luz, agua)</li>
+        <li>Constancia de situación fiscal</li>
+        <li>Últimos recibos de nómina</li>
+        <li>Estado de cuenta bancario para el depósito</li>
+        <li>Antigüedad laboral mínima de 6 meses en su empleo actual</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA + LEYENDAS -->
+<section class="sec" style="background:#fff">
+  <div class="wrap">
+    <div class="cta-box">
+      <h2>¿Listo para empezar?</h2>
+      <p>Un asesor se pondrá en contacto contigo en menos de 24 horas hábiles. Sin compromiso.</p>
+      <a href="index.html#solicitud" class="btn btn-lg">Solicitar más información →</a>
+    </div>
+    <div class="leyendas" style="margin-top:28px">
+      <h5>Avisos importantes</h5>
+      <p>“Incumplir tus obligaciones te puede generar comisiones e intereses moratorios.”</p>
+      <p>“Contratar créditos que excedan tu capacidad de pago afecta tu historial crediticio.”</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-logo" style="margin-bottom:24px"><img src="Impulsa_grupo_financiero_transparente.png" alt="Impulsa SOFOM E.N.R."/></div>
+
+    <!-- INFORMACIÓN REGULATORIA -->
+    <div class="reg-grid">
+      <div class="reg-col">
+        <h5>Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros (CONDUSEF)</h5>
+        <p><strong>Domicilio:</strong> Av. Insurgentes Sur No. 762, Col. Del Valle, Alcaldía Benito Juárez, C.P. 03100, Ciudad de México</p>
+        <p><strong>Teléfonos:</strong> 55 5340 0999 y 800 999 8080</p>
+        <p><strong>Página de Internet:</strong> <a href="https://www.condusef.gob.mx" target="_blank" rel="noopener">www.condusef.gob.mx</a></p>
+        <p><strong>Correo electrónico:</strong> <a href="mailto:asesoria@condusef.gob.mx">asesoria@condusef.gob.mx</a></p>
+      </div>
+    </div>
+    <div class="buro-box">
+      <div class="buro-head">
+        <img src="buro-entidades-financieras.png" alt="Buró de Entidades Financieras" class="buro-logo" onerror="this.style.display='none'"/>
+        <h5>Buró de Entidades Financieras</h5>
+      </div>
+      <p>¿Qué es el Buró de Entidades Financieras? Es una herramienta de consulta y difusión con la que podrás conocer los productos que ofrecen las entidades financieras, sus comisiones y tasas, las reclamaciones de los usuarios, las prácticas no sanas en que incurren, las sanciones administrativas que les han impuesto, las cláusulas abusivas de sus contratos y otra información que resulte relevante para informarte sobre su desempeño. Con el Buró de Entidades Financieras, se logrará saber quién es quién en bancos, seguros, sociedades financieras de objeto múltiple, cajas de ahorro, afores, entre otras entidades. Con ello, podrás comparar y evaluar a las entidades financieras, sus productos y servicios y tendrás mayores elementos para elegir lo que más te convenga.</p>
+      <p>La información que de Grupo Financiero Impulsa consta en el Buró de Entidades Financieras puede consultarse en <a href="https://www.buro.gob.mx" target="_blank" rel="noopener">www.buro.gob.mx</a>. Dicha información corresponde únicamente a esta financiera; para conocer la información de todo el sector, podrás acceder al sitio <a href="http://www.buro.gob.mx" target="_blank" rel="noopener">http://www.buro.gob.mx</a>.</p>
+      <p class="buro-leyenda">“El Buró de Entidades Financieras contiene información de Grupo Financiero Impulsa sobre nuestro desempeño frente a los Usuarios, por la prestación de productos y servicios.”</p>
+      <p class="buro-leyenda">“Te invitamos a consultarlo en la página <a href="http://www.buro.gob.mx" target="_blank" rel="noopener">http://www.buro.gob.mx</a> o en nuestra página de internet <a href="https://gfimpulsa.mx" target="_blank" rel="noopener">gfimpulsa.mx</a>.”</p>
+    </div>
+
+    <p class="copy">© 2025 Impulsa SOFOM E.N.R. Todos los derechos reservados.</p>
+    <p class="legal">Sociedad Financiera de Objeto Múltiple, Entidad No Regulada. La presente entidad no está regulada por la Comisión Nacional Bancaria y de Valores (CNBV). Las operaciones crediticias están sujetas a aprobación y análisis de riesgo.</p>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobMenu').classList.toggle('open')}
+</script>
+</body>
+</html>
